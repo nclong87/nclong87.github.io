@@ -7,25 +7,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>PDF.js viewer</title>
     <script type="text/javascript">
+      function onClickMe() {
+        console.log('onClickMe');
+        window.parent.postMessage({ text: 'How are you!' }, '*')
+      }
       window.onload = function() {
         function receive(event) {
             console.log("Received Message : ", event.data);
         }
         console.log('addEventListener');
         window.addEventListener('message', receive);
-
-        var pagesloadedEvent = new CustomEvent("pagesloaded", {
-          detail: {
-            hazcheeseburger: true
-          }
-        });
-        console.log('pagesloadedEvent', pagesloadedEvent);
-        window.parent.dispatchEvent(pagesloadedEvent);
       }
     </script>
   </head>
 
   <body tabindex="1" class="loadingInProgress">
-    Hello textContentStream 2
+    Hello textContentStream 1
+    <button type="button" onclick="onClickMe()">Click Me!</button>
   </body>
 </html>
