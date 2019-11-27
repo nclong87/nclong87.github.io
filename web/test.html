@@ -13,11 +13,19 @@
         }
         console.log('addEventListener');
         window.addEventListener('message', receive);
+
+        var pagesloadedEvent = new CustomEvent("pagesloaded", {
+          detail: {
+            hazcheeseburger: true
+          }
+        });
+        console.log('pagesloadedEvent', pagesloadedEvent);
+        window.parent.dispatchEvent(pagesloadedEvent);
       }
     </script>
   </head>
 
   <body tabindex="1" class="loadingInProgress">
-    Hello textContentStream
+    Hello textContentStream 2
   </body>
 </html>
