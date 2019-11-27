@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html dir="ltr" mozdisallowselectionprint>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="google" content="notranslate">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>PDF.js viewer</title>
+    <script type="text/javascript">
+      function onClickMe() {
+        console.log('onClickMe');
+        window.parent.postMessage({ text: 'How are you!' }, '*')
+      }
+      window.onload = function() {
+        function receive(event) {
+            console.log("Received Message : ", event.data);
+        }
+        console.log('addEventListener');
+        window.addEventListener('message', receive);
+      }
+    </script>
+  </head>
+
+  <body tabindex="1" class="loadingInProgress">
+    Hello textContentStream 1
+    <button type="button" onclick="onClickMe()">Click Me!</button>
+  </body>
+</html>
