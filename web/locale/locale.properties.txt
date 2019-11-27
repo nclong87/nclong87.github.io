@@ -1,0 +1,299 @@
+[ach]
+@import url(ach/viewer.properties.txt)
+
+[af]
+@import url(af/viewer.properties.txt)
+
+[an]
+@import url(an/viewer.properties.txt)
+
+[ar]
+@import url(ar/viewer.properties.txt)
+
+[ast]
+@import url(ast/viewer.properties.txt)
+
+[az]
+@import url(az/viewer.properties.txt)
+
+[be]
+@import url(be/viewer.properties.txt)
+
+[bg]
+@import url(bg/viewer.properties.txt)
+
+[bn]
+@import url(bn/viewer.properties.txt)
+
+[bo]
+@import url(bo/viewer.properties.txt)
+
+[br]
+@import url(br/viewer.properties.txt)
+
+[brx]
+@import url(brx/viewer.properties.txt)
+
+[bs]
+@import url(bs/viewer.properties.txt)
+
+[ca]
+@import url(ca/viewer.properties.txt)
+
+[cak]
+@import url(cak/viewer.properties.txt)
+
+[cs]
+@import url(cs/viewer.properties.txt)
+
+[cy]
+@import url(cy/viewer.properties.txt)
+
+[da]
+@import url(da/viewer.properties.txt)
+
+[de]
+@import url(de/viewer.properties.txt)
+
+[dsb]
+@import url(dsb/viewer.properties.txt)
+
+[el]
+@import url(el/viewer.properties.txt)
+
+[en-CA]
+@import url(en-CA/viewer.properties.txt)
+
+[en-GB]
+@import url(en-GB/viewer.properties.txt)
+
+[en-US]
+@import url(en-US/viewer.properties.txt)
+
+[eo]
+@import url(eo/viewer.properties.txt)
+
+[es-AR]
+@import url(es-AR/viewer.properties.txt)
+
+[es-CL]
+@import url(es-CL/viewer.properties.txt)
+
+[es-ES]
+@import url(es-ES/viewer.properties.txt)
+
+[es-MX]
+@import url(es-MX/viewer.properties.txt)
+
+[et]
+@import url(et/viewer.properties.txt)
+
+[eu]
+@import url(eu/viewer.properties.txt)
+
+[fa]
+@import url(fa/viewer.properties.txt)
+
+[ff]
+@import url(ff/viewer.properties.txt)
+
+[fi]
+@import url(fi/viewer.properties.txt)
+
+[fr]
+@import url(fr/viewer.properties.txt)
+
+[fy-NL]
+@import url(fy-NL/viewer.properties.txt)
+
+[ga-IE]
+@import url(ga-IE/viewer.properties.txt)
+
+[gd]
+@import url(gd/viewer.properties.txt)
+
+[gl]
+@import url(gl/viewer.properties.txt)
+
+[gn]
+@import url(gn/viewer.properties.txt)
+
+[gu-IN]
+@import url(gu-IN/viewer.properties.txt)
+
+[he]
+@import url(he/viewer.properties.txt)
+
+[hi-IN]
+@import url(hi-IN/viewer.properties.txt)
+
+[hr]
+@import url(hr/viewer.properties.txt)
+
+[hsb]
+@import url(hsb/viewer.properties.txt)
+
+[hu]
+@import url(hu/viewer.properties.txt)
+
+[hy-AM]
+@import url(hy-AM/viewer.properties.txt)
+
+[ia]
+@import url(ia/viewer.properties.txt)
+
+[id]
+@import url(id/viewer.properties.txt)
+
+[is]
+@import url(is/viewer.properties.txt)
+
+[it]
+@import url(it/viewer.properties.txt)
+
+[ja]
+@import url(ja/viewer.properties.txt)
+
+[ka]
+@import url(ka/viewer.properties.txt)
+
+[kab]
+@import url(kab/viewer.properties.txt)
+
+[kk]
+@import url(kk/viewer.properties.txt)
+
+[km]
+@import url(km/viewer.properties.txt)
+
+[kn]
+@import url(kn/viewer.properties.txt)
+
+[ko]
+@import url(ko/viewer.properties.txt)
+
+[lij]
+@import url(lij/viewer.properties.txt)
+
+[lo]
+@import url(lo/viewer.properties.txt)
+
+[lt]
+@import url(lt/viewer.properties.txt)
+
+[ltg]
+@import url(ltg/viewer.properties.txt)
+
+[lv]
+@import url(lv/viewer.properties.txt)
+
+[mk]
+@import url(mk/viewer.properties.txt)
+
+[mr]
+@import url(mr/viewer.properties.txt)
+
+[ms]
+@import url(ms/viewer.properties.txt)
+
+[my]
+@import url(my/viewer.properties.txt)
+
+[nb-NO]
+@import url(nb-NO/viewer.properties.txt)
+
+[ne-NP]
+@import url(ne-NP/viewer.properties.txt)
+
+[nl]
+@import url(nl/viewer.properties.txt)
+
+[nn-NO]
+@import url(nn-NO/viewer.properties.txt)
+
+[oc]
+@import url(oc/viewer.properties.txt)
+
+[pa-IN]
+@import url(pa-IN/viewer.properties.txt)
+
+[pl]
+@import url(pl/viewer.properties.txt)
+
+[pt-BR]
+@import url(pt-BR/viewer.properties.txt)
+
+[pt-PT]
+@import url(pt-PT/viewer.properties.txt)
+
+[rm]
+@import url(rm/viewer.properties.txt)
+
+[ro]
+@import url(ro/viewer.properties.txt)
+
+[ru]
+@import url(ru/viewer.properties.txt)
+
+[si]
+@import url(si/viewer.properties.txt)
+
+[sk]
+@import url(sk/viewer.properties.txt)
+
+[sl]
+@import url(sl/viewer.properties.txt)
+
+[son]
+@import url(son/viewer.properties.txt)
+
+[sq]
+@import url(sq/viewer.properties.txt)
+
+[sr]
+@import url(sr/viewer.properties.txt)
+
+[sv-SE]
+@import url(sv-SE/viewer.properties.txt)
+
+[ta]
+@import url(ta/viewer.properties.txt)
+
+[te]
+@import url(te/viewer.properties.txt)
+
+[th]
+@import url(th/viewer.properties.txt)
+
+[tl]
+@import url(tl/viewer.properties.txt)
+
+[tr]
+@import url(tr/viewer.properties.txt)
+
+[trs]
+@import url(trs/viewer.properties.txt)
+
+[uk]
+@import url(uk/viewer.properties.txt)
+
+[ur]
+@import url(ur/viewer.properties.txt)
+
+[uz]
+@import url(uz/viewer.properties.txt)
+
+[vi]
+@import url(vi/viewer.properties.txt)
+
+[wo]
+@import url(wo/viewer.properties.txt)
+
+[xh]
+@import url(xh/viewer.properties.txt)
+
+[zh-CN]
+@import url(zh-CN/viewer.properties.txt)
+
+[zh-TW]
+@import url(zh-TW/viewer.properties.txt)

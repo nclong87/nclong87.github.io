@@ -1813,39 +1813,52 @@ function webViewerInitialized() {
     }
   }, true);
 
-  try {
-    webViewerOpenFileViaURL(file);
-  } catch (reason) {
-    PDFViewerApplication.l10n.get('loading_error', null, 'An error occurred while loading the PDF.').then(function (msg) {
-      PDFViewerApplication.error(msg, reason);
-    });
-  }
+  document.addEventListener('resourcechanged', function () {
+    // console.log('resourcechanged evt', resourceObj);
+    try {
+      if (resourceObj) {
+        webViewerOpenFileViaURL(resourceObj);
+      }
+    } catch (reason) {
+      PDFViewerApplication.l10n.get('loading_error', null, 'An error occurred while loading the PDF.').then(function (msg) {
+        PDFViewerApplication.error(msg, reason);
+      });
+    }
+  });
+
 }
 
 var webViewerOpenFileViaURL;
 {
-  webViewerOpenFileViaURL = function webViewerOpenFileViaURL(file) {
-    if (file && file.lastIndexOf('file:', 0) === 0) {
-      PDFViewerApplication.setTitleUsingUrl(file);
+  webViewerOpenFileViaURL = function webViewerOpenFileViaURL({ src, downloadable }) {
+    var appConfig = PDFViewerApplication.appConfig;
+    if (downloadable !== true) {
+      appConfig.toolbar.download.setAttribute('hidden', 'true');
+      appConfig.secondaryToolbar.downloadButton.setAttribute('hidden', 'true');
+    }
+    if (src && src.lastIndexOf('file:', 0) === 0) {
+      PDFViewerApplication.setTitleUsingUrl(src);
       var xhr = new XMLHttpRequest();
 
       xhr.onload = function () {
         PDFViewerApplication.open(new Uint8Array(xhr.response));
       };
 
-      xhr.open('GET', file);
+      xhr.open('GET', src);
       xhr.responseType = 'arraybuffer';
       xhr.send();
       return;
     }
 
-    if (file) {
-      PDFViewerApplication.open(file);
+    if (src) {
+      PDFViewerApplication.open(src);
     }
   };
 }
 
 function webViewerPageRendered(evt) {
+  // console.log(this.pdfDocument._pdfInfo);
+  // console.log('webViewerPageRendered', evt);
   var pageNumber = evt.pageNumber;
   var pageIndex = pageNumber - 1;
   var pageView = PDFViewerApplication.pdfViewer.getPageView(pageIndex);
@@ -2061,7 +2074,9 @@ function webViewerPrint() {
 }
 
 function webViewerDownload() {
-  PDFViewerApplication.download();
+  if (resourceObj && resourceObj.downloadable === true) {
+    PDFViewerApplication.download();
+  }
 }
 
 function webViewerFirstPage() {
@@ -2376,7 +2391,9 @@ function webViewerKeyDown(evt) {
   if (cmd === 1 || cmd === 8) {
     switch (evt.keyCode) {
       case 83:
-        PDFViewerApplication.download();
+        if (resourceObj && resourceObj.downloadable === true) {
+          PDFViewerApplication.download();
+        }
         handled = true;
         break;
     }
@@ -4143,7 +4160,7 @@ var defaultOptions = {
     kind: OptionKind.VIEWER + OptionKind.PREFERENCE
   },
   eventBusDispatchToDOM: {
-    value: false,
+    value: true,
     kind: OptionKind.VIEWER + OptionKind.PREFERENCE
   },
   externalLinkRel: {
@@ -8741,14 +8758,23 @@ function () {
 
       this._notifyStateChange();
 
-      if (this.container.requestFullscreen) {
-        this.container.requestFullscreen();
-      } else if (this.container.mozRequestFullScreen) {
-        this.container.mozRequestFullScreen();
-      } else if (this.container.webkitRequestFullscreen) {
-        this.container.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
-      } else if (this.container.msRequestFullscreen) {
-        this.container.msRequestFullscreen();
+      // if (true) {
+      //   console.log('dsada', this.container);
+      //   const mainContainer = document.getElementById("mainContainer");
+      //   return;
+      // }
+
+      // const mainContainer = document.getElementById("mainContainer");
+      const mainContainer = this.container;
+
+      if (mainContainer.requestFullscreen) {
+        mainContainer.requestFullscreen();
+      } else if (mainContainer.mozRequestFullScreen) {
+        mainContainer.mozRequestFullScreen();
+      } else if (mainContainer.webkitRequestFullscreen) {
+        mainContainer.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+      } else if (mainContainer.msRequestFullscreen) {
+        mainContainer.msRequestFullscreen();
       } else {
         return false;
       }
@@ -9396,7 +9422,7 @@ function () {
       this._currentPageNumber = 1;
       this._pageLabels = null;
       this._pagesRotation = 0;
-      this._pagesRequests = [];
+      this._pagesRequests = new WeakMap();
       this.container.textContent = '';
     }
   }, {
@@ -9482,21 +9508,24 @@ function () {
         return Promise.resolve(thumbView.pdfPage);
       }
 
-      var pageNumber = thumbView.id;
-
-      if (this._pagesRequests[pageNumber]) {
-        return this._pagesRequests[pageNumber];
+      if (this._pagesRequests.has(thumbView)) {
+        return this._pagesRequests.get(thumbView);
       }
 
-      var promise = this.pdfDocument.getPage(pageNumber).then(function (pdfPage) {
+      var promise = this.pdfDocument.getPage(thumbView.id).then(function (pdfPage) {
         thumbView.setPdfPage(pdfPage);
-        _this2._pagesRequests[pageNumber] = null;
+
+        _this2._pagesRequests["delete"](thumbView);
+
         return pdfPage;
       })["catch"](function (reason) {
         console.error('Unable to get page for thumb view', reason);
-        _this2._pagesRequests[pageNumber] = null;
+
+        _this2._pagesRequests["delete"](thumbView);
       });
-      this._pagesRequests[pageNumber] = promise;
+
+      this._pagesRequests.set(thumbView, promise);
+
       return promise;
     }
   }, {
@@ -10332,6 +10361,13 @@ function () {
           source: _this2,
           pagesCount: pagesCount
         });
+        var pagesloadedEvent = new CustomEvent("pagesloaded", {
+          detail: {
+            hazcheeseburger: true
+          }
+        });
+        console.log('pagesloadedEvent', pagesloadedEvent);
+        window.parent.dispatchEvent(pagesloadedEvent);
       });
       var onePageRenderedCapability = (0, _pdfjsLib.createPromiseCapability)();
       this.onePageRendered = onePageRenderedCapability.promise;
@@ -10485,7 +10521,7 @@ function () {
       this._buffer = new PDFPageViewBuffer(DEFAULT_CACHE_SIZE);
       this._location = null;
       this._pagesRotation = 0;
-      this._pagesRequests = [];
+      this._pagesRequests = new WeakMap();
       this._pageViewsReady = false;
       this._scrollMode = _ui_utils.ScrollMode.VERTICAL;
       this._spreadMode = _ui_utils.SpreadMode.NONE;
@@ -10905,24 +10941,26 @@ function () {
         return Promise.resolve(pageView.pdfPage);
       }
 
-      var pageNumber = pageView.id;
-
-      if (this._pagesRequests[pageNumber]) {
-        return this._pagesRequests[pageNumber];
+      if (this._pagesRequests.has(pageView)) {
+        return this._pagesRequests.get(pageView);
       }
 
-      var promise = this.pdfDocument.getPage(pageNumber).then(function (pdfPage) {
+      var promise = this.pdfDocument.getPage(pageView.id).then(function (pdfPage) {
         if (!pageView.pdfPage) {
           pageView.setPdfPage(pdfPage);
         }
 
-        _this3._pagesRequests[pageNumber] = null;
+        _this3._pagesRequests["delete"](pageView);
+
         return pdfPage;
       })["catch"](function (reason) {
         console.error('Unable to get page for page view', reason);
-        _this3._pagesRequests[pageNumber] = null;
+
+        _this3._pagesRequests["delete"](pageView);
       });
-      this._pagesRequests[pageNumber] = promise;
+
+      this._pagesRequests.set(pageView, promise);
+
       return promise;
     }
   }, {
@@ -11077,7 +11115,13 @@ function () {
   }, {
     key: "pageViewsReady",
     get: function get() {
-      return this._pageViewsReady;
+      if (!this._pageViewsReady) {
+        return false;
+      }
+
+      return this._pages.every(function (pageView) {
+        return !!(pageView && pageView.pdfPage);
+      });
     }
   }, {
     key: "currentPageNumber",
@@ -12697,34 +12741,52 @@ function () {
       var _this2 = this;
 
       this.toggleButton.addEventListener('click', this.toggle.bind(this));
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
 
-      var _loop = function _loop(button) {
-        var _this2$buttons$button = _this2.buttons[button],
-            element = _this2$buttons$button.element,
-            eventName = _this2$buttons$button.eventName,
-            close = _this2$buttons$button.close,
-            eventDetails = _this2$buttons$button.eventDetails;
-        element.addEventListener('click', function (evt) {
-          if (eventName !== null) {
-            var details = {
-              source: _this2
-            };
+      try {
+        var _loop = function _loop() {
+          var _step$value = _step.value,
+              element = _step$value.element,
+              eventName = _step$value.eventName,
+              close = _step$value.close,
+              eventDetails = _step$value.eventDetails;
+          element.addEventListener('click', function (evt) {
+            if (eventName !== null) {
+              var details = {
+                source: _this2
+              };
 
-            for (var property in eventDetails) {
-              details[property] = eventDetails[property];
+              for (var property in eventDetails) {
+                details[property] = eventDetails[property];
+              }
+
+              _this2.eventBus.dispatch(eventName, details);
             }
 
-            _this2.eventBus.dispatch(eventName, details);
-          }
+            if (close) {
+              _this2.close();
+            }
+          });
+        };
 
-          if (close) {
-            _this2.close();
+        for (var _iterator = this.buttons[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          _loop();
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+            _iterator["return"]();
           }
-        });
-      };
-
-      for (var button in this.buttons) {
-        _loop(button);
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
       }
     }
   }, {
@@ -13050,7 +13112,45 @@ function () {
     this.toolbar = options.container;
     this.eventBus = eventBus;
     this.l10n = l10n;
-    this.items = options;
+    this.buttons = [{
+      element: options.previous,
+      eventName: 'previouspage'
+    }, {
+      element: options.next,
+      eventName: 'nextpage'
+    }, {
+      element: options.zoomIn,
+      eventName: 'zoomin'
+    }, {
+      element: options.zoomOut,
+      eventName: 'zoomout'
+    }, {
+      element: options.openFile,
+      eventName: 'openfile'
+    }, {
+      element: options.print,
+      eventName: 'print'
+    }, {
+      element: options.presentationModeButton,
+      eventName: 'presentationmode'
+    }, {
+      element: options.download,
+      eventName: 'download'
+    }, {
+      element: options.viewBookmark,
+      eventName: null
+    }];
+    this.items = {
+      numPages: options.numPages,
+      pageNumber: options.pageNumber,
+      scaleSelectContainer: options.scaleSelectContainer,
+      scaleSelect: options.scaleSelect,
+      customScaleOption: options.customScaleOption,
+      previous: options.previous,
+      next: options.next,
+      zoomIn: options.zoomIn,
+      zoomOut: options.zoomOut
+    };
     this._wasLocalized = false;
     this.reset();
 
@@ -13100,81 +13200,73 @@ function () {
     value: function _bindListeners() {
       var _this = this;
 
-      var eventBus = this.eventBus,
-          items = this.items;
+      var _this$items = this.items,
+          pageNumber = _this$items.pageNumber,
+          scaleSelect = _this$items.scaleSelect;
       var self = this;
-      items.previous.addEventListener('click', function () {
-        eventBus.dispatch('previouspage', {
-          source: self
-        });
-      });
-      items.next.addEventListener('click', function () {
-        eventBus.dispatch('nextpage', {
-          source: self
-        });
-      });
-      items.zoomIn.addEventListener('click', function () {
-        eventBus.dispatch('zoomin', {
-          source: self
-        });
-      });
-      items.zoomOut.addEventListener('click', function () {
-        eventBus.dispatch('zoomout', {
-          source: self
-        });
-      });
-      items.pageNumber.addEventListener('click', function () {
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        var _loop = function _loop() {
+          var _step$value = _step.value,
+              element = _step$value.element,
+              eventName = _step$value.eventName;
+          element.addEventListener('click', function (evt) {
+            if (eventName !== null) {
+              _this.eventBus.dispatch(eventName, {
+                source: _this
+              });
+            }
+          });
+        };
+
+        for (var _iterator = this.buttons[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          _loop();
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+            _iterator["return"]();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+
+      pageNumber.addEventListener('click', function () {
         this.select();
       });
-      items.pageNumber.addEventListener('change', function () {
-        eventBus.dispatch('pagenumberchanged', {
+      pageNumber.addEventListener('change', function () {
+        self.eventBus.dispatch('pagenumberchanged', {
           source: self,
           value: this.value
         });
       });
-      items.scaleSelect.addEventListener('change', function () {
+      scaleSelect.addEventListener('change', function () {
         if (this.value === 'custom') {
           return;
         }
 
-        eventBus.dispatch('scalechanged', {
+        self.eventBus.dispatch('scalechanged', {
           source: self,
           value: this.value
         });
       });
-      items.presentationModeButton.addEventListener('click', function () {
-        eventBus.dispatch('presentationmode', {
-          source: self
-        });
-      });
-      items.openFile.addEventListener('click', function () {
-        eventBus.dispatch('openfile', {
-          source: self
-        });
-      });
-      items.print.addEventListener('click', function () {
-        eventBus.dispatch('print', {
-          source: self
-        });
-      });
-      items.download.addEventListener('click', function () {
-        eventBus.dispatch('download', {
-          source: self
-        });
-      });
-      items.scaleSelect.oncontextmenu = _ui_utils.noContextMenuHandler;
-      eventBus.on('localized', function () {
-        _this._localized();
-      });
-    }
-  }, {
-    key: "_localized",
-    value: function _localized() {
-      this._wasLocalized = true;
+      scaleSelect.oncontextmenu = _ui_utils.noContextMenuHandler;
+      this.eventBus.on('localized', function () {
+        _this._wasLocalized = true;
 
-      this._adjustScaleWidth();
+        _this._adjustScaleWidth();
 
-      this._updateUIState(true);
+        _this._updateUIState(true);
+      });
     }
   }, {
     key: "_updateUIState",
@@ -13226,19 +13318,36 @@ function () {
       this.l10n.get('page_scale_percent', {
         scale: customScale
       }, '{{scale}}%').then(function (msg) {
-        var options = items.scaleSelect.options;
         var predefinedValueFound = false;
+        var _iteratorNormalCompletion2 = true;
+        var _didIteratorError2 = false;
+        var _iteratorError2 = undefined;
 
-        for (var i = 0, ii = options.length; i < ii; i++) {
-          var option = options[i];
+        try {
+          for (var _iterator2 = items.scaleSelect.options[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+            var option = _step2.value;
 
-          if (option.value !== pageScaleValue) {
-            option.selected = false;
-            continue;
+            if (option.value !== pageScaleValue) {
+              option.selected = false;
+              continue;
+            }
+
+            option.selected = true;
+            predefinedValueFound = true;
           }
-
-          option.selected = true;
-          predefinedValueFound = true;
+        } catch (err) {
+          _didIteratorError2 = true;
+          _iteratorError2 = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
+              _iterator2["return"]();
+            }
+          } finally {
+            if (_didIteratorError2) {
+              throw _iteratorError2;
+            }
+          }
         }
 
         if (!predefinedValueFound) {
@@ -13632,7 +13741,7 @@ function getDefaultPreferences() {
       "disablePageLabels": false,
       "enablePrintAutoRotate": false,
       "enableWebGL": false,
-      "eventBusDispatchToDOM": false,
+      "eventBusDispatchToDOM": true,
       "externalLinkTarget": 0,
       "historyUpdateUrl": false,
       "pdfBugEnabled": false,
@@ -15193,15 +15302,9 @@ function renderProgress(index, total, l10n) {
   });
 }
 
-var hasAttachEvent = !!document.attachEvent;
 window.addEventListener('keydown', function (event) {
   if (event.keyCode === 80 && (event.ctrlKey || event.metaKey) && !event.altKey && (!event.shiftKey || window.chrome || window.opera)) {
     window.print();
-
-    if (hasAttachEvent) {
-      return;
-    }
-
     event.preventDefault();
 
     if (event.stopImmediatePropagation) {
@@ -15211,17 +15314,6 @@ window.addEventListener('keydown', function (event) {
     }
   }
 }, true);
-
-if (hasAttachEvent) {
-  document.attachEvent('onkeydown', function (event) {
-    event = event || window.event;
-
-    if (event.keyCode === 80 && event.ctrlKey) {
-      event.keyCode = 0;
-      return false;
-    }
-  });
-}
 
 if ('onbeforeprint' in window) {
   var stopPropagationIfNeeded = function stopPropagationIfNeeded(event) {
