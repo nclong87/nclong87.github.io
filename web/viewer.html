@@ -45,9 +45,9 @@ See https://github.com/adobe-type-tools/cmap-resources
             if (!event.data || !event.data.src) {
               return;
             }
-            if (event.data.popup === true) {
-              document.body.style.backgroundColor = '#404040B3'
-            }
+            // if (event.data.popup === true) {
+            //   document.body.style.backgroundColor = '#404040B3'
+            // }
             resourceObj = event.data;
             var event = new CustomEvent("resourcechanged", {
               detail: event.data
