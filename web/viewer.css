@@ -1361,6 +1361,11 @@ html[dir='rtl'] .toolbarButton.pageDown::before {
   content: url(images/toolbarButton-print.png);
 }
 
+.toolbarButton.close::before,
+.secondaryToolbarButton.close::before {
+  content: url(images/toolbarButton-close.png);
+}
+
 .toolbarButton.openFile::before,
 .secondaryToolbarButton.openFile::before {
   content: url(images/toolbarButton-openFile.png);
@@ -2196,6 +2201,11 @@ html[dir='rtl'] #documentPropertiesOverlay .row > * {
   .toolbarButton.print::before,
   .secondaryToolbarButton.print::before {
     content: url(images/toolbarButton-print@2x.png);
+  }
+
+  .toolbarButton.close::before,
+  .secondaryToolbarButton.close::before {
+    content: url(images/toolbarButton-close@2x.png);
   }
 
   .toolbarButton.openFile::before,

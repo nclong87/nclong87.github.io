@@ -34,20 +34,52 @@ See https://github.com/adobe-type-tools/cmap-resources
     <script src="../build/pdf.min.js"></script>
     <script type="text/javascript">
       let resourceObj = null;
-      function receive(event) {
-          // console.log("Received Message : ", event.data);
-          if (!event.data || !event.data.src) {
-            return;
-          }
-          // console.log(typeof webViewerOpenFileViaURL);
-          resourceObj = event.data;
-          var event = new CustomEvent("resourcechanged", {
-            detail: event.data
-          });
-          document.dispatchEvent(event);
+      function sendRequestClose() {
+        window.parent.postMessage({
+          type: 'close',
+        }, '*');
       }
-      console.log('addEventListener');
-      window.addEventListener('message', receive);
+      window.onload = function() {
+        function onReceivedMessage(event) {
+            // console.log("Received Message : ", event.data);
+            if (!event.data || !event.data.src) {
+              return;
+            }
+            if (event.data.popup === true) {
+              document.body.style.backgroundColor = '#404040B3'
+            }
+            resourceObj = event.data;
+            var event = new CustomEvent("resourcechanged", {
+              detail: event.data
+            });
+            document.dispatchEvent(event);
+        }
+        function onPagesLoaded(event) {
+          window.parent.postMessage({
+            type: 'pagesloaded',
+            data: event.detail,
+          }, '*');
+        }
+        function onPageChanging(event) {
+          window.parent.postMessage({
+            type: 'pagechanging',
+            data: event.detail,
+          }, '*');
+        }
+        function onKeyDown(event) {
+          if (event.keyCode === 27) {
+            sendRequestClose();
+          }
+        }
+        // console.log('onLoad 1');
+        window.addEventListener('message', onReceivedMessage);
+        document.addEventListener('pagesloaded', onPagesLoaded);
+        document.addEventListener('pagechanging', onPageChanging);
+        document.addEventListener('keydown', onKeyDown);
+        window.parent.postMessage({
+          type: 'ready',
+        }, '*');
+      }
     </script>
   </head>
 
@@ -127,6 +159,10 @@ See https://github.com/adobe-type-tools/cmap-resources
 
             <button id="secondaryDownload" class="secondaryToolbarButton download visibleMediumView" title="Download" tabindex="54" data-l10n-id="download">
               <span data-l10n-id="download_label">Download</span>
+            </button>
+
+            <button id="secondaryClose" class="secondaryToolbarButton close visibleMediumView" title="Close" tabindex="53">
+              <span>Close</span>
             </button>
 
             <a style="display: none" href="#" id="secondaryViewBookmark" class="secondaryToolbarButton bookmark visibleSmallView" title="Current view (copy or open in new window)" tabindex="55" data-l10n-id="bookmark">
@@ -230,6 +266,9 @@ See https://github.com/adobe-type-tools/cmap-resources
 
                 <button id="download" class="toolbarButton download hiddenMediumView" title="Download" tabindex="34" data-l10n-id="download">
                   <span data-l10n-id="download_label">Download</span>
+                </button>
+                <button onclick="sendRequestClose()" id="close" class="toolbarButton close hiddenMediumView" title="Close" tabindex="33">
+                  <span>Close</span>
                 </button>
                 <a style="display: none" href="#" id="viewBookmark" class="toolbarButton bookmark hiddenSmallView" title="Current view (copy or open in new window)" tabindex="35" data-l10n-id="bookmark">
                   <span data-l10n-id="bookmark_label">Current View</span>
@@ -400,5 +439,5 @@ See https://github.com/adobe-type-tools/cmap-resources
     </div> <!-- outerContainer -->
     <div id="printContainer"></div>
   </body>
-  <script src="viewer.js"></script>
+  <script src="viewer.min.js"></script>
 </html>

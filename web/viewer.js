@@ -148,6 +148,7 @@ function getViewerConfiguration() {
       viewFind: document.getElementById('viewFind'),
       openFile: document.getElementById('openFile'),
       print: document.getElementById('print'),
+      close: document.getElementById('close'),
       presentationModeButton: document.getElementById('presentationMode'),
       download: document.getElementById('download'),
       viewBookmark: document.getElementById('viewBookmark')
@@ -159,6 +160,7 @@ function getViewerConfiguration() {
       presentationModeButton: document.getElementById('secondaryPresentationMode'),
       openFileButton: document.getElementById('secondaryOpenFile'),
       printButton: document.getElementById('secondaryPrint'),
+      closeButton: document.getElementById('secondaryClose'),
       downloadButton: document.getElementById('secondaryDownload'),
       viewBookmarkButton: document.getElementById('secondaryViewBookmark'),
       firstPageButton: document.getElementById('firstPage'),
@@ -1382,7 +1384,6 @@ var PDFViewerApplication = {
       if (!pdfTitle && info && info['Title']) {
         pdfTitle = info['Title'];
       }
-
       if (pdfTitle) {
         _this5.setTitle("".concat(pdfTitle, " - ").concat(contentDispositionFilename || document.title));
       } else if (contentDispositionFilename) {
@@ -1813,28 +1814,32 @@ function webViewerInitialized() {
     }
   }, true);
 
-  document.addEventListener('resourcechanged', function () {
-    // console.log('resourcechanged evt', resourceObj);
-    try {
-      if (resourceObj) {
-        webViewerOpenFileViaURL(resourceObj);
-      }
-    } catch (reason) {
-      PDFViewerApplication.l10n.get('loading_error', null, 'An error occurred while loading the PDF.').then(function (msg) {
-        PDFViewerApplication.error(msg, reason);
-      });
-    }
-  });
-
 }
+
+document.addEventListener('resourcechanged', function () {
+  // console.log('resourcechanged evt', resourceObj);
+  try {
+    if (resourceObj) {
+      webViewerOpenFileViaURL(resourceObj);
+    }
+  } catch (reason) {
+    PDFViewerApplication.l10n.get('loading_error', null, 'An error occurred while loading the PDF.').then(function (msg) {
+      PDFViewerApplication.error(msg, reason);
+    });
+  }
+});
 
 var webViewerOpenFileViaURL;
 {
-  webViewerOpenFileViaURL = function webViewerOpenFileViaURL({ src, downloadable }) {
+  webViewerOpenFileViaURL = function webViewerOpenFileViaURL({ src, downloadable, popup }) {
     var appConfig = PDFViewerApplication.appConfig;
     if (downloadable !== true) {
       appConfig.toolbar.download.setAttribute('hidden', 'true');
       appConfig.secondaryToolbar.downloadButton.setAttribute('hidden', 'true');
+    }
+    if (popup !== true) {
+      appConfig.toolbar.close.setAttribute('hidden', 'true');
+      appConfig.secondaryToolbar.closeButton.setAttribute('hidden', 'true');
     }
     if (src && src.lastIndexOf('file:', 0) === 0) {
       PDFViewerApplication.setTitleUsingUrl(src);
@@ -10356,18 +10361,10 @@ function () {
       this.pagesPromise = pagesCapability.promise;
       pagesCapability.promise.then(function () {
         _this2._pageViewsReady = true;
-
         _this2.eventBus.dispatch('pagesloaded', {
           source: _this2,
           pagesCount: pagesCount
         });
-        var pagesloadedEvent = new CustomEvent("pagesloaded", {
-          detail: {
-            hazcheeseburger: true
-          }
-        });
-        console.log('pagesloadedEvent', pagesloadedEvent);
-        window.parent.dispatchEvent(pagesloadedEvent);
       });
       var onePageRenderedCapability = (0, _pdfjsLib.createPromiseCapability)();
       this.onePageRendered = onePageRenderedCapability.promise;
