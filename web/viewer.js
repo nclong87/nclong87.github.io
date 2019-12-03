@@ -1841,7 +1841,38 @@ var webViewerOpenFileViaURL;
       appConfig.toolbar.close.setAttribute('hidden', 'true');
       appConfig.secondaryToolbar.closeButton.setAttribute('hidden', 'true');
     }
-    if (src && src.lastIndexOf('file:', 0) === 0) {
+    if (!src) {
+      return;
+    }
+    if (typeof src === 'object') {
+
+      var file = src;
+
+      if (URL.createObjectURL && !_app_options.AppOptions.get('disableCreateObjectURL')) {
+        var url = URL.createObjectURL(file);
+
+        if (file.name) {
+          url = {
+            url: url,
+            originalUrl: file.name
+          };
+        }
+
+        PDFViewerApplication.open(url);
+      } else {
+        PDFViewerApplication.setTitleUsingUrl(file.name);
+        var fileReader = new FileReader();
+
+        fileReader.onload = function webViewerChangeFileReaderOnload(evt) {
+          var buffer = evt.target.result;
+          PDFViewerApplication.open(new Uint8Array(buffer));
+        };
+
+        fileReader.readAsArrayBuffer(file);
+      }
+      return;
+    }
+    if (src.lastIndexOf('file:', 0) === 0) {
       PDFViewerApplication.setTitleUsingUrl(src);
       var xhr = new XMLHttpRequest();
 
@@ -13374,8 +13405,9 @@ function () {
         if (container.clientWidth > 0) {
           select.setAttribute('style', 'min-width: inherit;');
           var width = select.clientWidth + SCALE_SELECT_CONTAINER_PADDING;
-          select.setAttribute('style', 'min-width: ' + (width + SCALE_SELECT_PADDING) + 'px;');
-          container.setAttribute('style', 'min-width: ' + width + 'px; ' + 'max-width: ' + width + 'px;');
+          select.setAttribute('style', 'min-width: 96px; max-width: 96px');
+          container.setAttribute('style', 'min-width: 96px; max-width: 96px');
+          // container.setAttribute('style', 'min-width: ' + width + 'px; ' + 'max-width: ' + width + 'px;');
         }
       });
     }
