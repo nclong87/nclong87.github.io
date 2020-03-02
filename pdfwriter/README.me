@@ -1,0 +1,32 @@
+
+await addText(doc, 'Vé xe từ Buôn Ma Thuột - Đắk Lắk đi Bảo Lộc - Lâm Đồng: 4 chuyến', {
+  font: 'b',
+  fontSize: 30,
+  textOptions: { align: 'center' }
+});
+await addText(doc, 'Header Text 2', {
+  fontSize: 20,
+  textOptions: { align: 'center' }
+});
+await addText(doc, 'Header Text 3', {
+  fontSize: 16,
+  textOptions: { align: 'center' }
+});
+doc.moveDown(1);
+await addText(doc, 'Vé xe từ Buôn Ma Thuột - Đắk Lắk đi Bảo Lộc - Lâm Đồng: 4 chuyến')
+await addFormattedText(doc, [
+  {
+    text: 'Bộ LĐ-TB&XH vừa có tờ trình dự thảo nghị định điều chỉnh ',
+    type: 'n',
+  },
+  {
+    text: 'lương hưu',
+    type: 'b',
+  },
+  {
+    text: ', trợ cấp bảo hiểm xã hội (BHXH) và trợ cấp hằng tháng.',
+    type: 'n',
+  },
+]);
+
+addImage(doc, image1);

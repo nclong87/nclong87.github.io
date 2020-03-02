@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html style="height: 100%;font-family: Helvetica;background-color: transparent;">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="pdfkit.standalone.js"></script>
+  <script src="blob-stream.js"></script>
+</head>
+<body style=" display: flex; flex: 1; margin: 0; height: 100%;">
+  <p style="margin: auto">Please wait...</p>
+</body>
+<script type="text/javascript">
+let doc = null;
+let normalFont = null;
+let boldFont = null;
+let docWidth = null;
+let docHeight = null;
+async function getFont(doc, type = 'n') {
+  if (type === 'b' && doc._registeredFonts.Bold === undefined) {
+    if (!boldFont) {
+      const font = await fetch('./fonts/HelveticaNeue-Bold.ttf');
+      boldFont = await font.arrayBuffer();
+    }
+    doc.registerFont('Bold', boldFont);
+  }
+  return type === 'b' ? 'Bold' : 'Normal';
+}
+
+function getImageSize(doc, image) {
+  const img  = doc.openImage(image);
+  // console.log(img);
+  return {
+    width: img.width * 0.75,
+    height: img.height * 0.75,
+  }
+}
+
+function addImage(doc, image, options) {
+  let { width } = options;
+  if (width === undefined) {
+    width = null;
+  }
+  let imgWidth;
+  const img  = getImageSize(doc, image);
+  if (width === null) {
+    // full width
+    imgWidth = docWidth;
+  } else {
+    imgWidth = width > docWidth ? docWidth : width;
+  }
+  const imgHeight = Math.round((imgWidth / img.width) * img.height);
+  // const n = imgHeight + doc.y + doc.currentLineHeight(true);
+  const n = imgHeight + doc.y;
+  // console.log('test', n, doc.page.maxY());
+  if (n > doc.page.maxY()) {
+    doc.addPage();
+  }
+  doc.image(image, undefined, undefined, { width: imgWidth });
+  return doc;
+}
+
+async function addText(doc, text, options = {}) {
+  let { font, fontSize, textOptions } = options;
+  if (font === undefined) {
+    font = 'n';
+  }
+  if (fontSize === undefined) {
+    fontSize = 11;
+  }
+  if (textOptions === undefined) {
+    textOptions = {};
+  }
+  doc.font(await getFont(doc, font), fontSize).text(text, textOptions);
+}
+
+async function addFormattedText(doc, texts, options = {}) {
+  let { fontSize, textOptions } = options;
+  if (fontSize === undefined) {
+    fontSize = 11;
+  }
+  if (textOptions === undefined) {
+    textOptions = {};
+  }
+  for (let i = 0; i < texts.length; i += 1) {
+    const { text, type } = texts[i];
+    const continued = i < texts.length - 1;
+    doc.font(await getFont(doc, type), fontSize).text(text, Object.assign({}, textOptions, { continued }));
+  }
+  // doc.moveDown(1);
+}
+
+async function createPDF(data, fileName = null) {
+  doc = new PDFDocument({ margin: 30 });
+  docWidth = doc.page.width - doc.page.margins.left - doc.page.margins.right;
+  docHeight = doc.page.height - doc.page.margins.top - doc.page.margins.bottom;
+  // console.log(doc);return;
+  if (!normalFont) {
+    const font = await fetch('./fonts/HelveticaNeue.ttf');
+    normalFont = await font.arrayBuffer();
+  }
+  doc.registerFont('Normal', normalFont);
+  const stream = doc.pipe(blobStream());
+
+  for (let i = 0; i < data.length; i += 1) {
+    const { item, type } = data[i];
+    if (type === 'text') {
+      await addText(doc, item.text, item.options === undefined ? {} : item.options);
+    } else if (type === 'formatted-text') {
+      await addFormattedText(doc, item.text, item.options === undefined ? {} : item.options)
+    } else if (type === 'image') {
+      addImage(doc, item.image, item.options === undefined ? {} : item.options);
+    }
+  }
+
+  doc.end();
+
+  stream.on('finish', (p) => {
+    // console.log('finish');
+    window.parent.postMessage({
+      type: 'finish',
+      data: stream.toBlob('application/pdf'),
+    }, '*');
+    // console.log('finish', blob);
+    // const url = window.URL.createObjectURL(blob);
+    // var a = document.createElement('a');
+    // document.body.appendChild(a);
+    // a.style = 'display: none';
+    // a.href = url;
+    // a.download = fileName || 'untitled.pdf';
+    // a.click();
+    // window.URL.revokeObjectURL(url);
+  });
+}
+window.addEventListener('load', async function() {
+  console.log('All assets are loaded');
+  function onReceivedMessage(event) {
+    if (!event.data) {
+      return;
+    }
+    const { data, fileName } = event.data;
+    createPDF(data, fileName);
+  }
+  // console.log('addEventListener');
+  window.addEventListener('message', onReceivedMessage);
+  window.parent.postMessage({
+    type: 'ready',
+  }, '*');
+})
+</script>
+
+</html>
