@@ -10,9 +10,15 @@
   <p style="margin: auto">Please wait...</p>
 </body>
 <script type="text/javascript">
+const fonts = {
+  n: 'Normal',
+  b: 'Bold',
+  icon: 'Icon',
+};
 let doc = null;
 let normalFont = null;
 let boldFont = null;
+let awesomeFont = null;
 let docWidth = null;
 let docHeight = null;
 async function getFont(doc, type = 'n') {
@@ -23,7 +29,14 @@ async function getFont(doc, type = 'n') {
     }
     doc.registerFont('Bold', boldFont);
   }
-  return type === 'b' ? 'Bold' : 'Normal';
+  if (type === 'icon' && doc._registeredFonts.Icon === undefined) {
+    if (!awesomeFont) {
+      const font = await fetch('./fonts/fa-solid-900.ttf');
+      awesomeFont = await font.arrayBuffer();
+    }
+    doc.registerFont('Icon', awesomeFont);
+  }
+  return fonts[type] || 'Normal';
 }
 
 function getImageSize(doc, image) {
@@ -59,37 +72,78 @@ function addImage(doc, image, options) {
   return doc;
 }
 
-async function addText(doc, text, options = {}) {
-  let { font, fontSize, textOptions } = options;
-  if (font === undefined) {
-    font = 'n';
+async function addIcon(doc, icon, style = null, opts = null) {
+  if (style !== null && style !== undefined) {
+    const { fontSize, color } = style;
+    if (fontSize !== undefined) {
+      doc.fontSize(fontSize);
+    }
+    if (color !== undefined) {
+      doc.fillColor(color);
+    }
   }
-  if (fontSize === undefined) {
-    fontSize = 11;
+  let options = {};
+  if (opts !== null && opts !== undefined) {
+    options = opts;
   }
-  if (textOptions === undefined) {
-    textOptions = {};
-  }
-  doc.font(await getFont(doc, font), fontSize).text(text, textOptions);
+  doc.font(await getFont(doc, 'icon')).text(icon, options);
 }
 
-async function addFormattedText(doc, texts, options = {}) {
-  let { fontSize, textOptions } = options;
-  if (fontSize === undefined) {
-    fontSize = 11;
+async function addText(doc, text, style = null, opts = null) {
+  let font = 'n';
+  if (style !== null && style !== undefined) {
+    const { fontSize, color } = style;
+    if (style.font !== undefined) {
+      font = style.font;
+    }
+    if (fontSize !== undefined) {
+      doc.fontSize(fontSize);
+    }
+    if (color !== undefined) {
+      doc.fillColor(color);
+    }
   }
-  if (textOptions === undefined) {
-    textOptions = {};
+  let options = {};
+  if (opts !== null && opts !== undefined) {
+    options = opts;
   }
+  doc.font(await getFont(doc, font)).text(text, options);
+}
+
+async function addFormattedText(doc, texts, style = null, opts = null) {
+  if (style !== null && style !== undefined) {
+    const { fontSize, color } = style;
+    if (fontSize !== undefined) {
+      doc.fontSize(fontSize);
+    }
+    if (color !== undefined) {
+      doc.fillColor(color);
+    }
+  }
+  let options = {};
+  if (opts !== null && opts !== undefined) {
+    options = opts;
+  }
+
   for (let i = 0; i < texts.length; i += 1) {
     const { text, type } = texts[i];
     const continued = i < texts.length - 1;
-    doc.font(await getFont(doc, type), fontSize).text(text, Object.assign({}, textOptions, { continued }));
+    doc.font(await getFont(doc, type)).text(text, Object.assign({}, options, { continued }));
   }
   // doc.moveDown(1);
 }
 
-async function createPDF(data, fileName = null) {
+async function createPDF(data, options = null) {
+  let defaultFontSize = 11;
+  let defaultFontColor = '#222222';
+  if (options) {
+    if (options.defaultFontSize) {
+      defaultFontSize = options.defaultFontSize;
+    }
+    if (options.defaultFontColor) {
+      defaultFontColor = options.defaultFontColor;
+    }
+  }
   doc = new PDFDocument({ margin: 30 });
   docWidth = doc.page.width - doc.page.margins.left - doc.page.margins.right;
   docHeight = doc.page.height - doc.page.margins.top - doc.page.margins.bottom;
@@ -103,13 +157,35 @@ async function createPDF(data, fileName = null) {
 
   for (let i = 0; i < data.length; i += 1) {
     const { item, type } = data[i];
-    if (type === 'text') {
-      await addText(doc, item.text, item.options === undefined ? {} : item.options);
+    if (type === 'move') {
+      const { direction, value } = item;
+      if (direction === 'up') {
+        doc.moveUp(value === undefined ? 1 : value);
+      }
+      if (direction === 'down') {
+        doc.moveDown(value === undefined ? 1 : value);
+      }
+    } else if (type === 'icon') {
+      const { icon, style, options } = item;
+      await addIcon(doc, icon, style, options );
+    } else if (type === 'text') {
+      const { text, style, options } = item;
+      await addText(doc, text, style, options);
     } else if (type === 'formatted-text') {
-      await addFormattedText(doc, item.text, item.options === undefined ? {} : item.options)
+      const { text, style, options } = item;
+      await addFormattedText(doc, text, style, options)
     } else if (type === 'image') {
-      addImage(doc, item.image, item.options === undefined ? {} : item.options);
+      const { image, options } = item;
+      let opts = {};
+      if (options !== null && options !== undefined) {
+        opts = options;
+      }
+      addImage(doc, image, opts);
     }
+
+    // reset
+    doc.fontSize(defaultFontSize);
+    doc.fillColor(defaultFontColor);
   }
 
   doc.end();
@@ -120,15 +196,6 @@ async function createPDF(data, fileName = null) {
       type: 'finish',
       data: stream.toBlob('application/pdf'),
     }, '*');
-    // console.log('finish', blob);
-    // const url = window.URL.createObjectURL(blob);
-    // var a = document.createElement('a');
-    // document.body.appendChild(a);
-    // a.style = 'display: none';
-    // a.href = url;
-    // a.download = fileName || 'untitled.pdf';
-    // a.click();
-    // window.URL.revokeObjectURL(url);
   });
 }
 window.addEventListener('load', async function() {
@@ -137,8 +204,8 @@ window.addEventListener('load', async function() {
     if (!event.data) {
       return;
     }
-    const { data, fileName } = event.data;
-    createPDF(data, fileName);
+    const { data, options } = event.data;
+    createPDF(data, options);
   }
   // console.log('addEventListener');
   window.addEventListener('message', onReceivedMessage);
