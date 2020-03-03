@@ -21,6 +21,8 @@ let boldFont = null;
 let awesomeFont = null;
 let docWidth = null;
 let docHeight = null;
+let defaultFontSize;
+let defaultColor;
 async function getFont(doc, type = 'n') {
   if (type === 'b' && doc._registeredFonts.Bold === undefined) {
     if (!boldFont) {
@@ -111,6 +113,7 @@ async function addText(doc, text, style = null, opts = null) {
 }
 
 async function addFormattedText(doc, texts, style = null, opts = null) {
+  let textColor = defaultColor;
   if (style !== null && style !== undefined) {
     const { fontSize, color } = style;
     if (fontSize !== undefined) {
@@ -118,6 +121,7 @@ async function addFormattedText(doc, texts, style = null, opts = null) {
     }
     if (color !== undefined) {
       doc.fillColor(color);
+      textColor = color;
     }
   }
   let options = {};
@@ -127,21 +131,28 @@ async function addFormattedText(doc, texts, style = null, opts = null) {
 
   for (let i = 0; i < texts.length; i += 1) {
     const { text, type } = texts[i];
+    if (texts[i].color !== undefined) {
+      doc.fillColor(texts[i].color);
+    }
     const continued = i < texts.length - 1;
     doc.font(await getFont(doc, type)).text(text, Object.assign({}, options, { continued }));
+    if (texts[i].color !== undefined) {
+      // reset
+      doc.fillColor(textColor);
+    }
   }
   // doc.moveDown(1);
 }
 
 async function createPDF(data, options = null) {
-  let defaultFontSize = 11;
-  let defaultFontColor = '#222222';
+  defaultFontSize = 11;
+  defaultColor = '#222222';
   if (options) {
     if (options.defaultFontSize) {
       defaultFontSize = options.defaultFontSize;
     }
-    if (options.defaultFontColor) {
-      defaultFontColor = options.defaultFontColor;
+    if (options.defaultColor) {
+      defaultColor = options.defaultColor;
     }
   }
   doc = new PDFDocument({ margin: 30 });
@@ -188,7 +199,7 @@ async function createPDF(data, options = null) {
 
     // reset
     doc.fontSize(defaultFontSize);
-    doc.fillColor(defaultFontColor);
+    doc.fillColor(defaultColor);
   }
 
   doc.end();
@@ -208,6 +219,9 @@ window.addEventListener('load', async function() {
       return;
     }
     const { data, options } = event.data;
+    if (data === undefined) {
+      return;
+    }
     createPDF(data, options);
   }
   // console.log('addEventListener');
