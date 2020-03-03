@@ -157,7 +157,10 @@ async function createPDF(data, options = null) {
 
   for (let i = 0; i < data.length; i += 1) {
     const { item, type } = data[i];
-    if (type === 'move') {
+    if (type === 'addPage') {
+      const { options } = item;
+      doc.addPage(options);
+    } else if (type === 'move') {
       const { direction, value } = item;
       if (direction === 'up') {
         doc.moveUp(value === undefined ? 1 : value);
