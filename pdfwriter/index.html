@@ -64,13 +64,14 @@ function addImage(doc, image, options) {
     imgWidth = width > docWidth ? docWidth : width;
   }
   const imgHeight = Math.round((imgWidth / img.width) * img.height);
-  // const n = imgHeight + doc.y + doc.currentLineHeight(true);
   const n = imgHeight + doc.y;
-  // console.log('test', n, doc.page.maxY());
   if (n > doc.page.maxY()) {
     doc.addPage();
   }
-  doc.image(image, undefined, undefined, { width: imgWidth });
+  doc.image(image, undefined, undefined, {fit: [imgWidth, img.height], align: 'center', valign: 'center'} );
+  if (img.height - imgHeight > 0) {
+    doc.y += img.height;
+  }
   return doc;
 }
 
