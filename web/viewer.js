@@ -1833,13 +1833,19 @@ var webViewerOpenFileViaURL;
 {
   webViewerOpenFileViaURL = function webViewerOpenFileViaURL({ src, downloadable, popup }) {
     var appConfig = PDFViewerApplication.appConfig;
-    if (downloadable !== true) {
+    if (downloadable === false) {
       appConfig.toolbar.download.setAttribute('hidden', 'true');
       appConfig.secondaryToolbar.downloadButton.setAttribute('hidden', 'true');
+    } else if (downloadable === true) {
+      appConfig.toolbar.download.removeAttribute('hidden');
+      appConfig.secondaryToolbar.downloadButton.removeAttribute('hidden');
     }
-    if (popup !== true) {
+    if (popup === false) {
       appConfig.toolbar.close.setAttribute('hidden', 'true');
       appConfig.secondaryToolbar.closeButton.setAttribute('hidden', 'true');
+    } else if (popup === true) {
+      appConfig.toolbar.close.removeAttribute('hidden');
+      appConfig.secondaryToolbar.closeButton.removeAttribute('hidden');
     }
     if (!src) {
       return;

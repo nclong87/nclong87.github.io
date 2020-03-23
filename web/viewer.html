@@ -43,7 +43,7 @@ See https://github.com/adobe-type-tools/cmap-resources
       window.onload = function() {
         function onReceivedMessage(event) {
             // console.log("Received Message : ", event.data);
-            if (!event.data || !event.data.src) {
+            if (!event.data) {
               return;
             }
             // if (event.data.popup === true) {
@@ -441,5 +441,5 @@ See https://github.com/adobe-type-tools/cmap-resources
     </div> <!-- outerContainer -->
     <div id="printContainer"></div>
   </body>
-  <script src="viewer01.min.js"></script>
+  <script src="viewer02.min.js"></script>
 </html>
