@@ -1144,6 +1144,7 @@ var PDFViewerApplication = {
     var _this5 = this;
 
     this.pdfDocument = pdfDocument;
+    var pagesCount = pdfDocument.numPages;
     pdfDocument.getDownloadInfo().then(function () {
       _this5.downloadComplete = true;
 
@@ -1151,7 +1152,8 @@ var PDFViewerApplication = {
 
       firstPagePromise.then(function () {
         _this5.eventBus.dispatch('documentloaded', {
-          source: _this5
+          source: _this5,
+          pagesCount: pagesCount,
         });
       });
     });

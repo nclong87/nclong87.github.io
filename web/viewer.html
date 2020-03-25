@@ -61,6 +61,12 @@ See https://github.com/adobe-type-tools/cmap-resources
             data: event.detail,
           }, '*');
         }
+        function onDocumentLoaded(event) {
+          window.parent.postMessage({
+            type: 'documentloaded',
+            data: event.detail,
+          }, '*');
+        }
         function onPageChanging(event) {
           window.parent.postMessage({
             type: 'pagechanging',
@@ -68,6 +74,7 @@ See https://github.com/adobe-type-tools/cmap-resources
           }, '*');
         }
         function onPageRendered(event) {
+          console.log('onPageRendered', event);
           window.parent.postMessage({
             type: 'pagerendered',
             data: event.detail,
@@ -83,6 +90,7 @@ See https://github.com/adobe-type-tools/cmap-resources
         document.addEventListener('pagesloaded', onPagesLoaded);
         document.addEventListener('pagechanging', onPageChanging);
         document.addEventListener('pagerendered', onPageRendered);
+        document.addEventListener('documentloaded', onDocumentLoaded);
         document.addEventListener('keydown', onKeyDown);
         window.parent.postMessage({
           type: 'ready',
@@ -448,5 +456,5 @@ See https://github.com/adobe-type-tools/cmap-resources
     </div> <!-- outerContainer -->
     <div id="printContainer"></div>
   </body>
-  <script src="viewer02.min.js"></script>
+  <script src="viewer03.min.js"></script>
 </html>
