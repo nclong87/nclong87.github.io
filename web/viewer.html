@@ -67,6 +67,12 @@ See https://github.com/adobe-type-tools/cmap-resources
             data: event.detail,
           }, '*');
         }
+        function onPageRendered(event) {
+          window.parent.postMessage({
+            type: 'pagerendered',
+            data: event.detail,
+          }, '*');
+        }
         function onKeyDown(event) {
           if (event.keyCode === 27) {
             sendRequestClose();
@@ -76,6 +82,7 @@ See https://github.com/adobe-type-tools/cmap-resources
         window.addEventListener('message', onReceivedMessage);
         document.addEventListener('pagesloaded', onPagesLoaded);
         document.addEventListener('pagechanging', onPageChanging);
+        document.addEventListener('pagerendered', onPageRendered);
         document.addEventListener('keydown', onKeyDown);
         window.parent.postMessage({
           type: 'ready',
