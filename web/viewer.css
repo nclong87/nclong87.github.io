@@ -2048,6 +2048,10 @@ html[dir='rtl'] #documentPropertiesOverlay .row > * {
   font-size: 10px;
 }
 
+.textLayer a.external-link {
+  color: transparent !important;
+}
+
 #viewer.textLayer-visible .textLayer {
   opacity: 1.0;
 }

@@ -12258,7 +12258,7 @@ function () {
         _this.textLayerDiv.appendChild(textLayerFrag);
 
         _this._finishRendering();
-
+        _this.textLayerDiv.innerHTML = autolinker.link( _this.textLayerDiv.innerHTML);
         _this._updateMatches();
       }, function (reason) {});
 
