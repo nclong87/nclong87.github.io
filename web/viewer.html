@@ -115,6 +115,24 @@ See https://github.com/adobe-type-tools/cmap-resources
         document.addEventListener('pagerendered', onPageRendered);
         document.addEventListener('documentloaded', onDocumentLoaded);
         document.addEventListener('keydown', onKeyDown);
+        if (URLSearchParams && URLSearchParams !== undefined) {
+          const urlParams = new URLSearchParams(window.location.search);
+          const src = urlParams.get('src');
+          if (src) {
+            const downloadable = urlParams.get('downloadable');
+            resourceObj = {
+              src,
+              downloadable: downloadable === 'true',
+              popup: false
+            };
+            // console.log('resourceObj', resourceObj);
+            var event = new CustomEvent("resourcechanged", {
+              detail: resourceObj
+            });
+            document.dispatchEvent(event);
+            return;
+          }
+        }
         window.parent.postMessage({
           type: 'ready',
         }, '*');

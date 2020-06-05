@@ -1819,7 +1819,7 @@ function webViewerInitialized() {
 }
 
 document.addEventListener('resourcechanged', function () {
-  // console.log('resourcechanged evt', resourceObj);
+  console.log('resourcechanged evt', resourceObj);
   try {
     if (resourceObj) {
       webViewerOpenFileViaURL(resourceObj);
