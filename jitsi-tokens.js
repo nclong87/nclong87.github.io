@@ -9,5 +9,6 @@ const users = {
   },
   'part1': {
     jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJqaXRzaSIsInN1YiI6InZpZGVvLWRldi5tZWV0aW5nbWFrZXIuc2UiLCJyb29tIjoic3RhZ2UtMzNjM2MwYTQtNmJjMi00NzlkLTg1YjktNWI2YWZiYjBhODE4IiwiaXNzIjoibWVldGluZ21ha2VyLXdlYi1kZXYiLCJleHAiOjE2MDc4NDk0MzIsImNvbnRleHQiOnsidXNlciI6eyJhdmF0YXIiOiIiLCJuYW1lIjoiMSBQYXJ0IiwiZW1haWwiOiJuY2xvbmcucGFydC4xQG1haWxpbmF0b3IuY29tIiwiaWQiOiI1ODkifSwiZ3JvdXAiOiIifSwibW9kZXJhdG9yIjpmYWxzZX0.JKtEkPg3rPSJ3LLBtdWiKK5zkOlKpBgF0P3u2IymVaQ',
+    email: 'nclong.part.1@mailinator.com'
   }
 }
