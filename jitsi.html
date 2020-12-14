@@ -126,12 +126,12 @@ h1,h2,h3,h4,h5,h6 {font-family:"Segoe UI",sans-serif}
     const speakerEmails = speakers.getSpeakers();
     api.setRoomData({ isMicOn, speakerEmails, isJoined: true });
   });
-  // api.addEventListener('participantJoined', () => api.setRoomData({ speakerEmails: speakers.getSpeakers() }));
-  // api.addEventListener('participantLeft', () => api.setRoomData({ speakerEmails: speakers.getSpeakers() }));
+  api.addEventListener('participantJoined', () => api.setRoomData({ speakerEmails: speakers.getSpeakers() }));
+  api.addEventListener('participantLeft', () => api.setRoomData({ speakerEmails: speakers.getSpeakers() }));
   
-//   window.addEventListener('storage', () => {
-//     const data = { speakerEmails: speakers.getSpeakers() };
-//     api.setRoomData(data);
-//   });
+  window.addEventListener('storage', () => {
+    const data = { speakerEmails: speakers.getSpeakers() };
+    api.setRoomData(data);
+  });
 </script>
 </html>
