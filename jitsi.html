@@ -124,7 +124,7 @@ h1,h2,h3,h4,h5,h6 {font-family:"Segoe UI",sans-serif}
     const isCamOn = speakers.isJoinedStage(user.email);
     const isMicOn = speakers.isJoinedStage(user.email);
     const speakerEmails = speakers.getSpeakers();
-    api.setRoomData({ isMicOn, speakerEmails });
+    api.setRoomData({ isMicOn, speakerEmails, isJoined: true });
   });
   api.addEventListener('participantJoined', () => api.setRoomData({ speakerEmails: speakers.getSpeakers() }));
   api.addEventListener('participantLeft', () => api.setRoomData({ speakerEmails: speakers.getSpeakers() }));
