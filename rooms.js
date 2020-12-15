@@ -15,11 +15,11 @@ const rooms = {
         "email": "nclong.speaker.2@mailinator.com"
       },
       "part1": {
-        "jwt": "",
+        "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJqaXRzaSIsInN1YiI6InZpZGVvLWRldi5tZWV0aW5nbWFrZXIuc2UiLCJyb29tIjoic3RhZ2UtMzNjM2MwYTQtNmJjMi00NzlkLTg1YjktNWI2YWZiYjBhODE4IiwiaXNzIjoibWVldGluZ21ha2VyLXdlYi1kZXYiLCJleHAiOjE2MDgxMTcyNzQsImNvbnRleHQiOnsidXNlciI6eyJhdmF0YXIiOiIiLCJuYW1lIjoiMSBQYXJ0IiwiZW1haWwiOiJuY2xvbmcucGFydC4xQG1haWxpbmF0b3IuY29tIiwiaWQiOiI1ODkifSwiZ3JvdXAiOiIifSwibW9kZXJhdG9yIjpmYWxzZX0.yf11A2aN4EvOVwMRT0KYaxmGnvo1zLgUWIpBI2Bi4S4",
         "email": "nclong.part.1@mailinator.com"
       },
       "part2": {
-        "jwt": "",
+        "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJqaXRzaSIsInN1YiI6InZpZGVvLWRldi5tZWV0aW5nbWFrZXIuc2UiLCJyb29tIjoic3RhZ2UtMzNjM2MwYTQtNmJjMi00NzlkLTg1YjktNWI2YWZiYjBhODE4IiwiaXNzIjoibWVldGluZ21ha2VyLXdlYi1kZXYiLCJleHAiOjE2MDgxMTcyOTcsImNvbnRleHQiOnsidXNlciI6eyJhdmF0YXIiOiIiLCJuYW1lIjoiMiBQYXJ0IiwiZW1haWwiOiJuY2xvbmcucGFydC4yQG1haWxpbmF0b3IuY29tIiwiaWQiOiI1OTEifSwiZ3JvdXAiOiIifSwibW9kZXJhdG9yIjpmYWxzZX0.CQvK0XFh5bTLEHFuSNIuf1u4892KPlixgnOeKWPFFuA",
         "email": "nclong.part.2@mailinator.com"
       }
     }
