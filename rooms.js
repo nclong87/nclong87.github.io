@@ -7,11 +7,11 @@ const rooms = {
          "email": "nclong.planner.a@mailinator.com"
       },
       "speaker1": {
-        "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJqaXRzaSIsInN1YiI6InZpZGVvLWRldi5tZWV0aW5nbWFrZXIuc2UiLCJyb29tIjoiMmEzM2I1MGEtZWZhNC00Zjg0LWFiYjEtNzFjM2E1ZGY3YTFiIiwiaXNzIjoibWVldGluZ21ha2VyLXdlYi1kZXYiLCJleHAiOjE2MDgwOTM1MDQsImNvbnRleHQiOnsidXNlciI6eyJhdmF0YXIiOiIiLCJuYW1lIjoiMSBTcGVha2VyIiwiZW1haWwiOiJuY2xvbmcuc3BlYWtlci4xQG1haWxpbmF0b3IuY29tIiwiaWQiOiI1OTgifSwiZ3JvdXAiOiIifSwibW9kZXJhdG9yIjpmYWxzZX0.cN20oXoFYvN2kgFNV_fvBGd_aCKuuTt1nLo8hRhWAo4",
+        "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJqaXRzaSIsInN1YiI6InZpZGVvLWRldi5tZWV0aW5nbWFrZXIuc2UiLCJyb29tIjoic3RhZ2UtMzNjM2MwYTQtNmJjMi00NzlkLTg1YjktNWI2YWZiYjBhODE4IiwiaXNzIjoibWVldGluZ21ha2VyLXdlYi1kZXYiLCJleHAiOjE2MDgwOTc0NDksImNvbnRleHQiOnsidXNlciI6eyJhdmF0YXIiOiIiLCJuYW1lIjoiMSBTcGVha2VyIiwiZW1haWwiOiJuY2xvbmcuc3BlYWtlci4xQG1haWxpbmF0b3IuY29tIiwiaWQiOiI1OTgifSwiZ3JvdXAiOiIifSwibW9kZXJhdG9yIjpmYWxzZX0.hnHBPlNWKjPlXL3oXit4yCw7MYjuvJEAsCr_NNHIhGA",
         "email": "nclong.speaker.1@mailinator.com"
       },
       "speaker2": {
-        "jwt": "",
+        "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJqaXRzaSIsInN1YiI6InZpZGVvLWRldi5tZWV0aW5nbWFrZXIuc2UiLCJyb29tIjoic3RhZ2UtMzNjM2MwYTQtNmJjMi00NzlkLTg1YjktNWI2YWZiYjBhODE4IiwiaXNzIjoibWVldGluZ21ha2VyLXdlYi1kZXYiLCJleHAiOjE2MDgwOTc0NzksImNvbnRleHQiOnsidXNlciI6eyJhdmF0YXIiOiIiLCJuYW1lIjoiMiBTb2Vha2VyIiwiZW1haWwiOiJuY2xvbmcuc3BlYWtlci4yQG1haWxpbmF0b3IuY29tIiwiaWQiOiI2MzcifSwiZ3JvdXAiOiIifSwibW9kZXJhdG9yIjpmYWxzZX0.GLf_2PGvWWt-dBqVkWoaS95rTfBBrbFDQzNNBQNlYvs",
         "email": "nclong.speaker.2@mailinator.com"
       },
       "part1": {
