@@ -19,7 +19,7 @@
   const userId = getUrlParameter('uid', 1);
   const roomId = getUrlParameter('room', '');
   const room = rooms[roomId];
-  const user = room[userId];
+  const user = room.users[userId];
   function joinLeftStage() {
     console.log('joinLeftStage');
     let speakerEmails;
