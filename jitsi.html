@@ -31,6 +31,18 @@
       api.setRoomData({ isMicOn: true, speakerEmails });
     }
   }
+
+  function startLiveStream() {
+    console.log('startLiveStream');
+    const streamUrl = getUrlParameter('stream', 'rtmp://137.116.244.53/WebRTCAppEE/54CdkSvQuY2N1607411864186');
+    api.executeCommand('startRecording', {
+      mode: 'stream',
+      shouldShare: true,
+      // rtmpStreamKey: streamSettings.rtmpStreamKey,
+      // rtmpBroadcastID: streamSettings.rtmpBroadcastID,
+      youtubeStreamKey: streamUrl,
+    });
+  }
 </script>
 <style>
 html,body {font-family:"Verdana",sans-serif}
@@ -45,12 +57,14 @@ h1,h2,h3,h4,h5,h6 {font-family:"Segoe UI",sans-serif}
   /* align-content: center; */
   /* text-align: center; */
   width: 100%;
+  justify-content: space-evenly;
 }
 </style>
 <body style="margin: 0">
   <div style="position: fixed; width: 100%; height: 80%;" id="jitsi-container" />
   <div class="controls">
     <button onclick="joinLeftStage()">Join/Left Stage</button>
+    <button onclick="startLiveStream()">Start LiveStream</button>
   </div>
 </div>
 </body>
@@ -131,7 +145,7 @@ h1,h2,h3,h4,h5,h6 {font-family:"Segoe UI",sans-serif}
   });
   api.addEventListener('participantJoined', () => api.setRoomData({ speakerEmails: speakers.getSpeakers() }));
   api.addEventListener('participantLeft', () => api.setRoomData({ speakerEmails: speakers.getSpeakers() }));
-  
+
   window.addEventListener('storage', () => {
     const data = { speakerEmails: speakers.getSpeakers() };
     api.setRoomData(data);
