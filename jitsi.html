@@ -32,16 +32,21 @@
     }
   }
 
+  let startLivestreamResolve = null;
+
   function startLiveStream() {
     console.log('startLiveStream');
-    const streamUrl = getUrlParameter('stream', 'rtmp://137.116.244.53/WebRTCAppEE/54CdkSvQuY2N1607411864186');
-    api.executeCommand('startRecording', {
-      mode: 'stream',
-      shouldShare: true,
-      // rtmpStreamKey: streamSettings.rtmpStreamKey,
-      // rtmpBroadcastID: streamSettings.rtmpBroadcastID,
-      youtubeStreamKey: streamUrl,
-    });
+    return new Promise((resolve) => {
+      startLivestreamResolve = resolve;
+      const streamUrl = getUrlParameter('stream', 'rtmp://137.116.244.53/WebRTCAppEE/54CdkSvQuY2N1607411864186');
+      api.executeCommand('startRecording', {
+        mode: 'stream',
+        shouldShare: true,
+        // rtmpStreamKey: streamSettings.rtmpStreamKey,
+        // rtmpBroadcastID: streamSettings.rtmpBroadcastID,
+        youtubeStreamKey: streamUrl,
+      });
+    })
   }
 
   function stopLiveStream() {
@@ -144,7 +149,8 @@ h1,h2,h3,h4,h5,h6 {font-family:"Segoe UI",sans-serif}
   // const api = new JitsiMeetExternalAPI('video-dev.meetingmaker.se', options);
   // const api = new JitsiMeetExternalAPI('video.meetingmaker.se', options);
   const api = new JitsiMeetExternalAPI('localhost:8080', options);
-  api.addEventListener('videoConferenceJoined', () => {
+  api.addEventListener('videoConferenceJoined', async () => {
+    // await startLiveStream();
     const isCamOn = speakers.isJoinedStage(user.email);
     const isMicOn = speakers.isJoinedStage(user.email);
     const speakerEmails = speakers.getSpeakers();
@@ -152,6 +158,14 @@ h1,h2,h3,h4,h5,h6 {font-family:"Segoe UI",sans-serif}
   });
   api.addEventListener('participantJoined', () => api.setRoomData({ speakerEmails: speakers.getSpeakers() }));
   api.addEventListener('participantLeft', () => api.setRoomData({ speakerEmails: speakers.getSpeakers() }));
+  api.addEventListener('recordingStatusChanged', (data) => {
+    console.log('recordingStatusChanged', data);
+    const { mode, on } = data;
+    if (mode === 'stream' && on === true && startLivestreamResolve !== null) {
+      startLivestreamResolve(true);
+      startLivestreamResolve = null;
+    }
+  });
 
   window.addEventListener('storage', () => {
     const data = { speakerEmails: speakers.getSpeakers() };
