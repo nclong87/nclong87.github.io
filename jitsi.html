@@ -118,7 +118,7 @@ h1,h2,h3,h4,h5,h6 {font-family:"Segoe UI",sans-serif}
     onload,
   };
   // this.api = new JitsiMeetExternalAPI(process.env.REACT_APP_JITSI, options);
-  const api = new JitsiMeetExternalAPI('video-dev.meetingmaker.se', options);
+  // const api = new JitsiMeetExternalAPI('video-dev.meetingmaker.se', options);
   const api = new JitsiMeetExternalAPI('video.meetingmaker.se', options);
   // const api = new JitsiMeetExternalAPI('localhost:8080', options);
   api.addEventListener('videoConferenceJoined', () => {
