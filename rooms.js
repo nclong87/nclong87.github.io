@@ -2,8 +2,12 @@ const rooms = {
   "1": {
     "id": "stage-33c3c0a4-6bc2-479d-85b9-5b6afbb0a818",
     "users": {
+      "mod": {
+         "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJqaXRzaSIsInN1YiI6InZpZGVvLWRldi5tZWV0aW5nbWFrZXIuc2UiLCJyb29tIjoic3RhZ2UtMzNjM2MwYTQtNmJjMi00NzlkLTg1YjktNWI2YWZiYjBhODE4IiwiaXNzIjoibWVldGluZ21ha2VyLXdlYi1kZXYiLCJleHAiOjE2MDgwOTM0MjUsImNvbnRleHQiOnsidXNlciI6eyJhdmF0YXIiOiIiLCJuYW1lIjoiQSBQbGFubmVyIiwiZW1haWwiOiJuY2xvbmcucGxhbm5lci5hQG1haWxpbmF0b3IuY29tIiwiaWQiOiI1ODgifSwiZ3JvdXAiOiIifSwibW9kZXJhdG9yIjp0cnVlfQ.0QHWLhksceCMMxlcE72vG5kMIufCkZtK5_sx-vGIujY",
+         "email": "nclong.planner.a@mailinator.com"
+      },
       "speaker1": {
-        "jwt": "",
+        "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJqaXRzaSIsInN1YiI6InZpZGVvLWRldi5tZWV0aW5nbWFrZXIuc2UiLCJyb29tIjoiMmEzM2I1MGEtZWZhNC00Zjg0LWFiYjEtNzFjM2E1ZGY3YTFiIiwiaXNzIjoibWVldGluZ21ha2VyLXdlYi1kZXYiLCJleHAiOjE2MDgwOTM1MDQsImNvbnRleHQiOnsidXNlciI6eyJhdmF0YXIiOiIiLCJuYW1lIjoiMSBTcGVha2VyIiwiZW1haWwiOiJuY2xvbmcuc3BlYWtlci4xQG1haWxpbmF0b3IuY29tIiwiaWQiOiI1OTgifSwiZ3JvdXAiOiIifSwibW9kZXJhdG9yIjpmYWxzZX0.cN20oXoFYvN2kgFNV_fvBGd_aCKuuTt1nLo8hRhWAo4",
         "email": "nclong.speaker.1@mailinator.com"
       },
       "speaker2": {
