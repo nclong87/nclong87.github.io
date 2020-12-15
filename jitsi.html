@@ -4,7 +4,7 @@
 <title>Page Title</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <script src="https://video.meetingmaker.se/external_api.js"></script>
-<script src="jitsi-tokens.js"></script>
+<script src="jitsi-rooms.js"></script>
 <script src="speakers.js"></script>
 <script type="text/javascript">
   const speakers = new Speakers();
@@ -17,7 +17,9 @@
     return value;
   }
   const userId = getUrlParameter('uid', 1);
-  const user = users[userId];
+  const roomId = getUrlParameter('room', '');
+  const room = rooms[roomId];
+  const user = room[userId];
   function joinLeftStage() {
     console.log('joinLeftStage');
     let speakerEmails;
@@ -58,7 +60,7 @@ h1,h2,h3,h4,h5,h6 {font-family:"Segoe UI",sans-serif}
     console.log('onload');
     api.setFilmstripVisible(false);
   };
-  const roomName = user.room;
+  const roomName = room.id;
   const jwt = user.jwt;
   const configOverwrite = {
     minParticipants: 1,
