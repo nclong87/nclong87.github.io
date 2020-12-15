@@ -84,7 +84,7 @@ h1,h2,h3,h4,h5,h6 {font-family:"Segoe UI",sans-serif}
   const parentNode = document.getElementById('jitsi-container');
   const onload = () => {
     console.log('onload');
-    // api.setFilmstripVisible(false);
+    api.setFilmstripVisible(false);
   };
   const roomName = room.id;
   const jwt = user.jwt;
@@ -148,7 +148,8 @@ h1,h2,h3,h4,h5,h6 {font-family:"Segoe UI",sans-serif}
   // this.api = new JitsiMeetExternalAPI(process.env.REACT_APP_JITSI, options);
   // const api = new JitsiMeetExternalAPI('video-dev.meetingmaker.se', options);
   // const api = new JitsiMeetExternalAPI('video.meetingmaker.se', options);
-  const api = new JitsiMeetExternalAPI('localhost:8080', options);
+  const api_host = getUrlParameter('api_host', 'localhost:8080');
+  const api = new JitsiMeetExternalAPI(api_host, options);
   api.addEventListener('videoConferenceJoined', async () => {
     // await startLiveStream();
     const isCamOn = speakers.isJoinedStage(user.email);
