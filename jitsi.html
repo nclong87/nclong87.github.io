@@ -49,10 +49,10 @@
     })
   }
 
-  function stopLiveStream() {
-    api.executeCommand('stopRecording', {
-      mode: 'stream',
-    });
+  async function onClickStartLiveStream() {
+    await startLiveStream();
+    const speakerEmails = speakers.getSpeakers();
+    api.setRoomData({ speakerEmails });
   }
 </script>
 <style>
@@ -76,7 +76,6 @@ h1,h2,h3,h4,h5,h6 {font-family:"Segoe UI",sans-serif}
   <div class="controls">
     <button onclick="joinLeftStage()">Join/Left Stage</button>
     <button onclick="startLiveStream()">Start LiveStream</button>
-    <button onclick="stopLiveStream()">Stop LiveStream</button>
   </div>
 </div>
 </body>
@@ -155,7 +154,7 @@ h1,h2,h3,h4,h5,h6 {font-family:"Segoe UI",sans-serif}
     const isCamOn = speakers.isJoinedStage(user.email);
     const isMicOn = speakers.isJoinedStage(user.email);
     const speakerEmails = speakers.getSpeakers();
-    api.setRoomData({ isOpenAll: true, speakerEmails });
+    api.setRoomData({ isOpenAll: false, speakerEmails });
   });
   api.addEventListener('participantJoined', () => api.setRoomData({ speakerEmails: speakers.getSpeakers() }));
   api.addEventListener('participantLeft', () => api.setRoomData({ speakerEmails: speakers.getSpeakers() }));
