@@ -28,7 +28,7 @@
       api.setRoomData({ isMicOn: false, isCamOn: false, speakerEmails });
     } else {
       speakerEmails = speakers.addSpeakers(user.email);
-      api.setRoomData({ isMicOn: true, speakerEmails });
+      api.setRoomData({ isMicOn: true, isCamOn: true, speakerEmails });
     }
   }
 
