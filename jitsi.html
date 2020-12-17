@@ -178,6 +178,11 @@ h1,h2,h3,h4,h5,h6 {font-family:"Segoe UI",sans-serif}
       startLivestreamResolve = null;
     }
   });
+  console.log('isDataChannelOpened', api.isDataChannelOpened());
+  api.addEventListener('dataChannelOpened', () => {
+    console.log('dataChannelOpened');
+    console.log('isDataChannelOpened', api.isDataChannelOpened());
+  });
 
   window.addEventListener('storage', () => {
     const data = { speakerEmails: speakers.getSpeakers() };
