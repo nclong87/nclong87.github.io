@@ -51,11 +51,8 @@
 
   async function onClickStartLiveStream() {
     await startLiveStream();
-    setTimeout(() => {
-      const speakerEmails = speakers.getSpeakers();
-      api.setRoomData({ speakerEmails });
-    }, 1000);
-
+    const speakerEmails = speakers.getSpeakers();
+    api.setRoomData({ speakerEmails });
   }
 </script>
 <style>
@@ -86,21 +83,25 @@ h1,h2,h3,h4,h5,h6 {font-family:"Segoe UI",sans-serif}
   const parentNode = document.getElementById('jitsi-container');
   const onload = () => {
     console.log('onload');
-    api.setFilmstripVisible(false);
+    // api.setFilmstripVisible(false);
   };
   const roomName = room.id;
   const jwt = user.jwt;
   const configOverwrite = {
-    minParticipants: 1,
     lastN: 1,
-    liveStreamingEnabled: true,
+    startSilent: true,
     startWithAudioMuted: true,
     startWithVideoMuted: true,
     enableEmailInStats: true,
     p2p: {
       enabled: false,
     },
+    analytics: {
+      disabled: true,
+    },
     disableDeepLinking: true,
+    iAmRecorder: true,
+    externalConnectUrl: null,
   };
   const toolbarButtons = [
     'livestreaming',
@@ -129,6 +130,7 @@ h1,h2,h3,h4,h5,h6 {font-family:"Segoe UI",sans-serif}
     // },
     configOverwrite,
     interfaceConfigOverwrite: {
+      APP_NAME: 'Jibri',
       DISABLE_JOIN_LEAVE_NOTIFICATIONS: true,
       DISABLE_FOCUS_INDICATOR: true,
       SHOW_POWERED_BY: false,
@@ -152,30 +154,10 @@ h1,h2,h3,h4,h5,h6 {font-family:"Segoe UI",sans-serif}
   // const api = new JitsiMeetExternalAPI('video.meetingmaker.se', options);
   const api_host = getUrlParameter('api_host', 'localhost:8080');
   const api = new JitsiMeetExternalAPI(api_host, options);
-  api.addEventListener('videoConferenceJoined', async () => {
-    await startLiveStream();
-    const isCamOn = speakers.isJoinedStage(user.email);
-    const isMicOn = speakers.isJoinedStage(user.email);
-    const speakerEmails = speakers.getSpeakers();
-    api.setRoomData({ isOpenAll: false, speakerEmails, isCamOn });
-  });
-  api.addEventListener('participantJoined', (data) => {
-    console.log('participantJoined', data);
-    api.setRoomData({ speakerEmails: speakers.getSpeakers() });
-  });
-  api.addEventListener('participantLeft', () => api.setRoomData({ speakerEmails: speakers.getSpeakers() }));
-  api.addEventListener('recordingStatusChanged', (data) => {
-    console.log('recordingStatusChanged', data);
-    const { mode, on } = data;
-    if (mode === 'stream' && on === true && startLivestreamResolve !== null) {
-      startLivestreamResolve(true);
-      startLivestreamResolve = null;
-    }
-  });
 
-  window.addEventListener('storage', () => {
-    const data = { speakerEmails: speakers.getSpeakers() };
-    api.setRoomData(data);
-  });
+  // window.addEventListener('storage', () => {
+  //   const data = { speakerEmails: speakers.getSpeakers() };
+  //   api.setRoomData(data);
+  // });
 </script>
 </html>
