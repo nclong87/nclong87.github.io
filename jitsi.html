@@ -153,7 +153,7 @@ h1,h2,h3,h4,h5,h6 {font-family:"Segoe UI",sans-serif}
   const api_host = getUrlParameter('api_host', 'localhost:8080');
   const api = new JitsiMeetExternalAPI(api_host, options);
   api.addEventListener('videoConferenceJoined', async () => {
-    await startLiveStream();
+    // await startLiveStream();
     const isCamOn = speakers.isJoinedStage(user.email);
     const isMicOn = speakers.isJoinedStage(user.email);
     const speakerEmails = speakers.getSpeakers();
