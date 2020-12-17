@@ -163,7 +163,7 @@ h1,h2,h3,h4,h5,h6 {font-family:"Segoe UI",sans-serif}
     const isCamOn = speakers.isJoinedStage(user.email);
     const isMicOn = speakers.isJoinedStage(user.email);
     const speakerEmails = speakers.getSpeakers();
-    api.setRoomData({ isOpenAll: false, speakerEmails, isCamOn });
+    api.setRoomData({ isOpenAll: false, speakerEmails });
   });
   api.addEventListener('participantJoined', (data) => {
     console.log('participantJoined', data);
