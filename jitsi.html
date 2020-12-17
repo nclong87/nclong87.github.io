@@ -57,6 +57,11 @@
     }, 1000);
 
   }
+
+  function updateSpeakerList() {
+    const speakerEmails = speakers.getSpeakers();
+    api.setRoomData({ speakerEmails });
+  }
 </script>
 <style>
 html,body {font-family:"Verdana",sans-serif}
@@ -79,6 +84,7 @@ h1,h2,h3,h4,h5,h6 {font-family:"Segoe UI",sans-serif}
   <div class="controls">
     <button onclick="joinLeftStage()">Join/Left Stage</button>
     <button onclick="onClickStartLiveStream()">Start LiveStream</button>
+    <button onclick="updateSpeakerList()">Update Data</button>
   </div>
 </div>
 </body>
