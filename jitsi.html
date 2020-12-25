@@ -178,6 +178,9 @@ h1,h2,h3,h4,h5,h6 {font-family:"Segoe UI",sans-serif}
       startLivestreamResolve = null;
     }
   });
+  api.addEventListener('audioMuteStatusChanged', (data) => {
+    console.log('audioMuteStatusChanged', data);
+  });
   console.log('isDataChannelOpened', api.isDataChannelOpened());
   api.addEventListener('dataChannelOpened', () => {
     console.log('dataChannelOpened');
