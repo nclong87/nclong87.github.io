@@ -1,10 +1,10 @@
 const rooms = {
   "1": {
-    "id": "stage-0b24901b-f0b0-4a59-ada5-317f7d068d78",
+    "id": "stage-b04dc24a-0125-4b8c-8d98-1f42d82fc833",
     "users": {
       "mod": {
-         "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJqaXRzaSIsInN1YiI6InZpZGVvLWRldi5tZWV0aW5nbWFrZXIuc2UiLCJyb29tIjoic3RhZ2UtMGIyNDkwMWItZjBiMC00YTU5LWFkYTUtMzE3ZjdkMDY4ZDc4IiwiaXNzIjoibWVldGluZ21ha2VyLXdlYi1kZXYiLCJleHAiOjE2MDg5ODIyNDUsImNvbnRleHQiOnsidXNlciI6eyJhdmF0YXIiOiIiLCJuYW1lIjoiQSBQbGFubmVyIiwiZW1haWwiOiJuY2xvbmcucGxhbm5lci5hQG1haWxpbmF0b3IuY29tIiwiaWQiOiI3NjgifSwiZ3JvdXAiOiIifSwibW9kZXJhdG9yIjp0cnVlfQ.zrPyWnQX2hChhxvrxkJSj4ObbYVOFb4t41CubiJxD-w",
-         "email": "nclong.planner.a@mailinator.com"
+         "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJqaXRzaSIsInN1YiI6InZpZGVvLWRldi5tZWV0aW5nbWFrZXIuc2UiLCJyb29tIjoic3RhZ2UtYjA0ZGMyNGEtMDEyNS00YjhjLThkOTgtMWY0MmQ4MmZjODMzIiwiaXNzIjoibWVldGluZ21ha2VyLXdlYi1kZXYiLCJleHAiOjE2MTEzMTE0NzMsImNvbnRleHQiOnsidXNlciI6eyJhdmF0YXIiOiIiLCJuYW1lIjoiTG9uZyBOZ3V5ZW4iLCJlbWFpbCI6Im5jbG9uZy5zYWxlc3Jvb20uMkBtYWlsaW5hdG9yLmNvbSIsImlkIjoiOTU5In0sImdyb3VwIjoiIn0sIm1vZGVyYXRvciI6dHJ1ZX0.Idc6Kuv7AAE2b41hKRbI2BzRiAdUehGrL7oP4dMSFq4",
+         "email": "nclong.salesroom.2@mailinator.com"
       },
       "s1": {
         "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJqaXRzaSIsInN1YiI6InZpZGVvLWRldi5tZWV0aW5nbWFrZXIuc2UiLCJyb29tIjoic3RhZ2UtMGIyNDkwMWItZjBiMC00YTU5LWFkYTUtMzE3ZjdkMDY4ZDc4IiwiaXNzIjoibWVldGluZ21ha2VyLXdlYi1kZXYiLCJleHAiOjE2MDg5ODIzNTUsImNvbnRleHQiOnsidXNlciI6eyJhdmF0YXIiOiIiLCJuYW1lIjoiMSBTcGVha2VyIiwiZW1haWwiOiJuY2xvbmcuc3BlYWtlci4xQG1haWxpbmF0b3IuY29tIiwiaWQiOiI3NjkifSwiZ3JvdXAiOiIifSwibW9kZXJhdG9yIjpmYWxzZX0.mwh0MZ6DnIAs6v4iv_eme-x6wzOYX3JT4Rmk2cRhNhw",
