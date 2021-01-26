@@ -27,7 +27,7 @@ See https://github.com/adobe-type-tools/cmap-resources
     <meta name="google" content="notranslate">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>PDF.js viewer</title>
-    <link rel="stylesheet" href="viewer.min.css">
+    <link rel="stylesheet" href="viewer05.min.css">
 
     <!-- This snippet is used in production (included from viewer.html) -->
     <link rel="resource" type="application/l10n" href="locale/locale.properties.txt">
@@ -65,18 +65,24 @@ See https://github.com/adobe-type-tools/cmap-resources
       }
       window.onload = function() {
         function onReceivedMessage(event) {
-            // console.log("Received Message : ", event.data);
             if (!event.data) {
               return;
             }
             // if (event.data.popup === true) {
             //   document.body.style.backgroundColor = '#404040B3'
             // }
-            resourceObj = event.data;
-            var event = new CustomEvent("resourcechanged", {
-              detail: event.data
+            const { message, data } = event.data;
+            if (!message) {
+              return;
+            }
+            if (message === 'onResourceChanged') {
+              resourceObj = data;
+            }
+            var customEvent = new CustomEvent(message, {
+              detail: data
             });
-            document.dispatchEvent(event);
+            // console.log("Received Message : ", customEvent);
+            document.dispatchEvent(customEvent);
         }
         function onPagesLoaded(event) {
           window.parent.postMessage({
@@ -126,7 +132,7 @@ See https://github.com/adobe-type-tools/cmap-resources
               popup: false
             };
             // console.log('resourceObj', resourceObj);
-            var event = new CustomEvent("resourcechanged", {
+            var event = new CustomEvent("onResourceChanged", {
               detail: resourceObj
             });
             document.dispatchEvent(event);
@@ -497,5 +503,5 @@ See https://github.com/adobe-type-tools/cmap-resources
     </div> <!-- outerContainer -->
     <div id="printContainer"></div>
   </body>
-  <script src="viewer04.min.js"></script>
+  <script src="viewer05.min.js"></script>
 </html>

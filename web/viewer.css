@@ -441,6 +441,10 @@ select {
   display: none !important;
 }
 
+#viewerContainer.presentationMode {
+  overflow: hidden !important;
+}
+
 #viewerContainer.pdfPresentationMode:-ms-fullscreen {
   top: 0px !important;
   overflow: hidden !important;

@@ -1818,8 +1818,8 @@ function webViewerInitialized() {
 
 }
 
-document.addEventListener('resourcechanged', function () {
-  console.log('resourcechanged evt', resourceObj);
+document.addEventListener('onResourceChanged', function () {
+  // console.log('onResourceChanged evt', resourceObj);
   try {
     if (resourceObj) {
       webViewerOpenFileViaURL(resourceObj);
@@ -1829,6 +1829,33 @@ document.addEventListener('resourcechanged', function () {
       PDFViewerApplication.error(msg, reason);
     });
   }
+});
+
+document.addEventListener('onPageChanged', function (evt) {
+  PDFViewerApplication.page = evt.detail;
+});
+
+document.addEventListener('onPresentationModeRequested', function (evt) {
+  var appConfig = PDFViewerApplication.appConfig;
+  const { isPresentationMode } = evt.detail;
+  // console.log('onPresentationModeRequested', appConfig.viewerContainer);
+  var pdfDocument = PDFViewerApplication.pdfDocument,
+      pdfViewer = PDFViewerApplication.pdfViewer;
+
+  if (!pdfDocument) {
+    return;
+  }
+
+  if (isPresentationMode) {
+    PDFViewerApplication.page = 1;
+    appConfig.toolbar.container.classList.add('hidden');
+    appConfig.mainContainer.classList.add('presentationMode');
+    pdfViewer.currentScaleValue = 'page-fit';
+  } else {
+    appConfig.toolbar.container.classList.remove('hidden');
+    appConfig.mainContainer.classList.remove('presentationMode');
+  }
+  pdfViewer.update();
 });
 
 var webViewerOpenFileViaURL;
@@ -3561,6 +3588,7 @@ function watchScroll(viewAreaElement, callback) {
     lastY: viewAreaElement.scrollTop,
     _eventHandler: debounceScroll
   };
+
   var rAF = null;
   viewAreaElement.addEventListener('scroll', debounceScroll, true);
   return state;
@@ -4318,7 +4346,7 @@ var defaultOptions = {
     kind: OptionKind.WORKER
   },
   workerSrc: {
-    value: '../build/pdf.worker.js',
+    value: '../build/pdf.worker.min.js',
     kind: OptionKind.WORKER
   }
 };
