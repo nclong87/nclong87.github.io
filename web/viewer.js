@@ -1835,9 +1835,9 @@ document.addEventListener('onPageChanged', function (evt) {
   PDFViewerApplication.page = evt.detail;
 });
 
-document.addEventListener('onPresentationModeRequested', function (evt) {
+document.addEventListener('onPresentationStarted', function (evt) {
   var appConfig = PDFViewerApplication.appConfig;
-  const { isPresentationMode } = evt.detail;
+  const { isPresenter } = evt.detail;
   // console.log('onPresentationModeRequested', appConfig.viewerContainer);
   var pdfDocument = PDFViewerApplication.pdfDocument,
       pdfViewer = PDFViewerApplication.pdfViewer;
@@ -1846,14 +1846,14 @@ document.addEventListener('onPresentationModeRequested', function (evt) {
     return;
   }
 
-  if (isPresentationMode) {
-    PDFViewerApplication.page = 1;
+  pdfViewer.currentScaleValue = 'page-fit';
+
+  if (isPresenter) {
+    // PDFViewerApplication.page = 1;
+  } else {
+    window.removeEventListener('keydown', webViewerKeyDown);
     appConfig.toolbar.container.classList.add('hidden');
     appConfig.mainContainer.classList.add('presentationMode');
-    pdfViewer.currentScaleValue = 'page-fit';
-  } else {
-    appConfig.toolbar.container.classList.remove('hidden');
-    appConfig.mainContainer.classList.remove('presentationMode');
   }
   pdfViewer.update();
 });

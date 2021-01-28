@@ -75,6 +75,10 @@ See https://github.com/adobe-type-tools/cmap-resources
             if (!message) {
               return;
             }
+            if (message === 'onKeydown') {
+              window.dispatchEvent(new KeyboardEvent('keydown', data));
+              return;
+            }
             if (message === 'onResourceChanged') {
               resourceObj = data;
             }
@@ -110,6 +114,7 @@ See https://github.com/adobe-type-tools/cmap-resources
           }, '*');
         }
         function onKeyDown(event) {
+          // console.log('onKeyDown', event.keyCode);
           if (event.keyCode === 27) {
             sendRequestClose();
           }
@@ -120,7 +125,7 @@ See https://github.com/adobe-type-tools/cmap-resources
         document.addEventListener('pagechanging', onPageChanging);
         document.addEventListener('pagerendered', onPageRendered);
         document.addEventListener('documentloaded', onDocumentLoaded);
-        document.addEventListener('keydown', onKeyDown);
+        window.addEventListener('keydown', onKeyDown);
         if (URLSearchParams && URLSearchParams !== undefined) {
           const urlParams = new URLSearchParams(window.location.search);
           const src = urlParams.get('src');
@@ -503,5 +508,5 @@ See https://github.com/adobe-type-tools/cmap-resources
     </div> <!-- outerContainer -->
     <div id="printContainer"></div>
   </body>
-  <script src="viewer05.min.js"></script>
+  <script src="viewer06.min.js"></script>
 </html>
