@@ -8,6 +8,9 @@
 <script src="speakers.js"></script>
 <script type="text/javascript">
   const speakers = new Speakers();
+  function test() {
+    	alert('ok');
+    }
   function getUrlParameter(param, defaultValue = null) {
     const params = new URLSearchParams(window.location.search);
     let value = params.get(param);
@@ -76,6 +79,7 @@ h1,h2,h3,h4,h5,h6 {font-family:"Segoe UI",sans-serif}
   <div class="controls">
     <button onclick="joinLeftStage()">Join/Left Stage</button>
     <button onclick="onClickStartLiveStream()">Start LiveStream</button>
+    <button id="button" onClick="test()">Test</button>
   </div>
 </div>
 </body>
