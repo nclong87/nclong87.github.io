@@ -2377,122 +2377,6 @@ function webViewerKeyDown(evt) {
   var pdfViewer = PDFViewerApplication.pdfViewer;
   var isViewerInPresentationMode = pdfViewer && pdfViewer.isInPresentationMode;
 
-  if (cmd === 1 || cmd === 8 || cmd === 5 || cmd === 12) {
-    switch (evt.keyCode) {
-      case 70:
-        if (!PDFViewerApplication.supportsIntegratedFind) {
-          PDFViewerApplication.findBar.open();
-          handled = true;
-        }
-
-        break;
-
-      case 71:
-        if (!PDFViewerApplication.supportsIntegratedFind) {
-          var findState = PDFViewerApplication.findController.state;
-
-          if (findState) {
-            PDFViewerApplication.findController.executeCommand('findagain', {
-              query: findState.query,
-              phraseSearch: findState.phraseSearch,
-              caseSensitive: findState.caseSensitive,
-              entireWord: findState.entireWord,
-              highlightAll: findState.highlightAll,
-              findPrevious: cmd === 5 || cmd === 12
-            });
-          }
-
-          handled = true;
-        }
-
-        break;
-
-      case 61:
-      case 107:
-      case 187:
-      case 171:
-        if (!isViewerInPresentationMode) {
-          PDFViewerApplication.zoomIn();
-        }
-
-        handled = true;
-        break;
-
-      case 173:
-      case 109:
-      case 189:
-        if (!isViewerInPresentationMode) {
-          PDFViewerApplication.zoomOut();
-        }
-
-        handled = true;
-        break;
-
-      case 48:
-      case 96:
-        if (!isViewerInPresentationMode) {
-          setTimeout(function () {
-            PDFViewerApplication.zoomReset();
-          });
-          handled = false;
-        }
-
-        break;
-
-      case 38:
-        if (isViewerInPresentationMode || PDFViewerApplication.page > 1) {
-          PDFViewerApplication.page = 1;
-          handled = true;
-          ensureViewerFocused = true;
-        }
-
-        break;
-
-      case 40:
-        if (isViewerInPresentationMode || PDFViewerApplication.page < PDFViewerApplication.pagesCount) {
-          PDFViewerApplication.page = PDFViewerApplication.pagesCount;
-          handled = true;
-          ensureViewerFocused = true;
-        }
-
-        break;
-    }
-  }
-
-  if (cmd === 1 || cmd === 8) {
-    switch (evt.keyCode) {
-      case 83:
-        if (resourceObj && resourceObj.downloadable === true) {
-          PDFViewerApplication.download();
-        }
-        handled = true;
-        break;
-    }
-  }
-
-  if (cmd === 3 || cmd === 10) {
-    switch (evt.keyCode) {
-      case 80:
-        PDFViewerApplication.requestPresentationMode();
-        handled = true;
-        break;
-
-      case 71:
-        PDFViewerApplication.appConfig.toolbar.pageNumber.select();
-        handled = true;
-        break;
-    }
-  }
-
-  if (handled) {
-    if (ensureViewerFocused && !isViewerInPresentationMode) {
-      pdfViewer.focus();
-    }
-
-    evt.preventDefault();
-    return;
-  }
-
   var curElement = document.activeElement || document.querySelector(':focus');
   var curElementTagName = curElement && curElement.tagName.toUpperCase();
 
@@ -2529,22 +2413,7 @@ function webViewerKeyDown(evt) {
           turnOnlyIfPageFit = true;
         }
 
-      case 75:
-      case 80:
         turnPage = -1;
-        break;
-
-      case 27:
-        if (PDFViewerApplication.secondaryToolbar.isOpen) {
-          PDFViewerApplication.secondaryToolbar.close();
-          handled = true;
-        }
-
-        if (!PDFViewerApplication.supportsIntegratedFind && PDFViewerApplication.findBar.opened) {
-          PDFViewerApplication.findBar.close();
-          handled = true;
-        }
-
         break;
 
       case 40:
@@ -2570,8 +2439,6 @@ function webViewerKeyDown(evt) {
           turnOnlyIfPageFit = true;
         }
 
-      case 74:
-      case 78:
         turnPage = 1;
         break;
 
@@ -2592,22 +2459,6 @@ function webViewerKeyDown(evt) {
         }
 
         break;
-
-      case 83:
-        PDFViewerApplication.pdfCursorTools.switchTool(_pdf_cursor_tools.CursorTool.SELECT);
-        break;
-
-      case 72:
-        PDFViewerApplication.pdfCursorTools.switchTool(_pdf_cursor_tools.CursorTool.HAND);
-        break;
-
-      case 82:
-        PDFViewerApplication.rotatePages(90);
-        break;
-
-      case 115:
-        PDFViewerApplication.pdfSidebar.toggle();
-        break;
     }
 
     if (turnPage !== 0 && (!turnOnlyIfPageFit || pdfViewer.currentScaleValue === 'page-fit')) {
@@ -2622,27 +2473,6 @@ function webViewerKeyDown(evt) {
       }
 
       handled = true;
-    }
-  }
-
-  if (cmd === 4) {
-    switch (evt.keyCode) {
-      case 13:
-      case 32:
-        if (!isViewerInPresentationMode && pdfViewer.currentScaleValue !== 'page-fit') {
-          break;
-        }
-
-        if (PDFViewerApplication.page > 1) {
-          PDFViewerApplication.page--;
-        }
-
-        handled = true;
-        break;
-
-      case 82:
-        PDFViewerApplication.rotatePages(-90);
-        break;
     }
   }
 
