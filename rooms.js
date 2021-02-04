@@ -3,7 +3,7 @@ const rooms = {
     "id": "stage-3eef9a39-ea9e-4798-9a7f-69826ca003e5",
     "users": {
       "mod": {
-         "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJqaXRzaSIsInN1YiI6InZpZGVvLWRldi5tZWV0aW5nbWFrZXIuc2UiLCJyb29tIjoic3RhZ2UtM2VlZjlhMzktZWE5ZS00Nzk4LTlhN2YtNjk4MjZjYTAwM2U1IiwiaXNzIjoibWVldGluZ21ha2VyLXdlYi1kZXYiLCJleHAiOjE2MTI0MTU0MjYsImNvbnRleHQiOnsidXNlciI6eyJhdmF0YXIiOiIiLCJuYW1lIjoiTG9uZyBOZ3V5ZW4iLCJlbWFpbCI6Im5jbG9uZy5zYWxlc3Jvb20uMkBtYWlsaW5hdG9yLmNvbSIsImlkIjoiMTAxMSJ9LCJncm91cCI6IiJ9LCJtb2RlcmF0b3IiOnRydWV9.cJGascUXpaFwP5YDQBzCZvi1F1SYT3313vi2ioaIp7A",
+         "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJqaXRzaSIsInN1YiI6InZpZGVvLWRldi5tZWV0aW5nbWFrZXIuc2UiLCJyb29tIjoic3RhZ2UtM2VlZjlhMzktZWE5ZS00Nzk4LTlhN2YtNjk4MjZjYTAwM2U1IiwiaXNzIjoibWVldGluZ21ha2VyLXdlYi1kZXYiLCJleHAiOjE2MTI0OTk2NjIsImNvbnRleHQiOnsidXNlciI6eyJhdmF0YXIiOiIiLCJuYW1lIjoiTG9uZyBOZ3V5ZW4iLCJlbWFpbCI6Im5jbG9uZy5zYWxlc3Jvb20uMkBtYWlsaW5hdG9yLmNvbSIsImlkIjoiMTAxMSJ9LCJncm91cCI6IiJ9LCJtb2RlcmF0b3IiOnRydWV9.1q3k5QnzJINQ5HS0IWWHH0lkQIbS7ZUiddHohnwuaaY",
          "email": "nclong.salesroom.2@mailinator.com"
       },
       "s1": {
@@ -15,7 +15,7 @@ const rooms = {
         "email": "nclong.part.1@mailinator.com"
       },
       "p2": {
-        "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJqaXRzaSIsInN1YiI6InZpZGVvLWRldi5tZWV0aW5nbWFrZXIuc2UiLCJyb29tIjoic3RhZ2UtM2VlZjlhMzktZWE5ZS00Nzk4LTlhN2YtNjk4MjZjYTAwM2U1IiwiaXNzIjoibWVldGluZ21ha2VyLXdlYi1kZXYiLCJleHAiOjE2MTI0MTU0OTksImNvbnRleHQiOnsidXNlciI6eyJhdmF0YXIiOiIiLCJuYW1lIjoiMiBQYXJ0IiwiZW1haWwiOiJuY2xvbmcucGFydC4yQG1haWxpbmF0b3IuY29tIiwiaWQiOiIxMDEzIn0sImdyb3VwIjoiIn0sIm1vZGVyYXRvciI6ZmFsc2V9.wFEA8trA7xYZez_PtG8GilLgJVsqpDGGMg8MesDHMEg",
+        "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJqaXRzaSIsInN1YiI6InZpZGVvLWRldi5tZWV0aW5nbWFrZXIuc2UiLCJyb29tIjoic3RhZ2UtM2VlZjlhMzktZWE5ZS00Nzk4LTlhN2YtNjk4MjZjYTAwM2U1IiwiaXNzIjoibWVldGluZ21ha2VyLXdlYi1kZXYiLCJleHAiOjE2MTI0OTk3MzcsImNvbnRleHQiOnsidXNlciI6eyJhdmF0YXIiOiIiLCJuYW1lIjoiMiBQYXJ0IiwiZW1haWwiOiJuY2xvbmcucGFydC4yQG1haWxpbmF0b3IuY29tIiwiaWQiOiIxMDEzIn0sImdyb3VwIjoiIn0sIm1vZGVyYXRvciI6ZmFsc2V9.ji36jTCBWhjs4BImC3ORlqv6nVZZRB1dKeTm410HlU4",
         "email": "nclong.part.2@mailinator.com"
       }
     }
