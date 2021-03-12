@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<title>Page Title</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<script src="https://video-dev.meetingmaker.se/external_api.js"></script>
+<script src="rooms.js"></script>
+<script src="speakers.js"></script>
+<script type="text/javascript">
+  const speakers = new Speakers();
+	function test() {
+    	alert('ok');
+    }
+  function getUrlParameter(param, defaultValue = null) {
+    const params = new URLSearchParams(window.location.search);
+    let value = params.get(param);
+    if (value === null) {
+      value = defaultValue;
+    }
+    return value;
+  }
+  const userId = getUrlParameter('uid', 1);
+  const roomId = getUrlParameter('room', '');
+  const room = rooms[roomId];
+  const user = room.users[userId];
+  function joinLeftStage() {
+    console.log('joinLeftStage');
+    let speakerEmails;
+    if (speakers.isJoinedStage(user.email)) {
+      speakerEmails = speakers.removeSpeakers(user.email);
+      api.setRoomData({ isMicOn: false, isCamOn: false, speakerEmails });
+    } else {
+      speakerEmails = speakers.addSpeakers(user.email);
+      api.setRoomData({ isMicOn: true, isCamOn: true, speakerEmails });
+    }
+  }
+
+  let startLivestreamResolve = null;
+
+  function startLiveStream() {
+    console.log('startLiveStream');
+    return new Promise((resolve) => {
+      startLivestreamResolve = resolve;
+      const streamUrl = getUrlParameter('stream', 'rtmp://137.116.244.53/WebRTCAppEE/54CdkSvQuY2N1607411864186');
+      api.executeCommand('startRecording', {
+        mode: 'stream',
+        shouldShare: true,
+        // rtmpStreamKey: streamSettings.rtmpStreamKey,
+        // rtmpBroadcastID: streamSettings.rtmpBroadcastID,
+        youtubeStreamKey: streamUrl,
+      });
+    })
+  }
+
+  async function onClickStartLiveStream() {
+    await startLiveStream();
+    setTimeout(() => {
+      const speakerEmails = speakers.getSpeakers();
+      api.setRoomData({ speakerEmails });
+    }, 1000);
+
+  }
+
+  function updateSpeakerList() {
+    const speakerEmails = speakers.getSpeakers();
+    api.setRoomData({ speakerEmails });
+  }
+</script>
+<style>
+html,body {font-family:"Verdana",sans-serif}
+h1,h2,h3,h4,h5,h6 {font-family:"Segoe UI",sans-serif}
+.controls {
+  position: fixed;
+  height: 20%;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* align-content: center; */
+  /* text-align: center; */
+  width: 100%;
+  justify-content: space-evenly;
+}
+iframe {
+  background-color: aquamarine;
+}
+</style>
+<body style="margin: 0">
+  <div style="position: fixed; width: 100%; height: 80%;" id="jitsi-container" />
+  <div class="controls">
+    <button onclick="joinLeftStage()">Join/Left Stage</button>
+    <button onclick="onClickStartLiveStream()">Start LiveStream</button>
+    <button onclick="updateSpeakerList()">Update Data</button>
+  </div>
+</div>
+</body>
+<script type="text/javascript">
+  const parentNode = document.getElementById('jitsi-container');
+  const onload = () => {
+    console.log('onload');
+    api.setFilmstripVisible(false);
+  };
+  const roomName = 'testroom123456';
+  // const jwt = user.jwt;
+  const configOverwrite = {
+    minParticipants: 1,
+    lastN: 1,
+    liveStreamingEnabled: true,
+    startWithAudioMuted: true,
+    startWithVideoMuted: true,
+    enableEmailInStats: true,
+    p2p: {
+      enabled: false,
+    },
+    disableDeepLinking: true,
+    webrtcIceUdpDisable: true,
+    webrtcIceTcpDisable: false,
+  };
+  const toolbarButtons = [
+    'livestreaming',
+    'fullscreen',
+    'filmstrip',
+    'tileview',
+    // 'hangup',
+    'profile',
+    'raisehand',
+    'videoquality',
+    'videobackgroundblur',
+    'help',
+    'desktop',
+    'microphone',
+    'camera',
+  ];
+  const options = {
+    // this.api = new JitsiMeetExternalAPI('meet.jit.si', {
+    // api = new JitsiMeetExternalAPI('stage.meet.veertly.com', {
+    roomName,
+    // jwt,
+    parentNode,
+    // userInfo: {
+    //   email: participant.email,
+    //   displayName: `${participant.firstName} ${participant.lastName}`,
+    // },
+    configOverwrite,
+    interfaceConfigOverwrite: {
+      DEFAULT_BACKGROUND: 'transparent',
+      DISABLE_JOIN_LEAVE_NOTIFICATIONS: true,
+      DISABLE_FOCUS_INDICATOR: true,
+      SHOW_POWERED_BY: false,
+      SHOW_CHROME_EXTENSION_BANNER: false,
+      SHOW_JITSI_WATERMARK: false,
+      SHOW_WATERMARK_FOR_GUESTS: false,
+      SHOW_BRAND_WATERMARK: false,
+      GENERATE_ROOMNAMES_ON_WELCOME_PAGE: false,
+      JITSI_WATERMARK_LINK: null,
+      CLOSE_PAGE_GUEST_HINT: false,
+      SHOW_PROMOTIONAL_CLOSE_PAGE: false,
+      RECENT_LIST_ENABLED: false,
+      DEFAULT_REMOTE_DISPLAY_NAME: 'MeetingMaker',
+      TILE_VIEW_MAX_COLUMNS: 5,
+      TOOLBAR_BUTTONS: toolbarButtons,
+    },
+    onload,
+  };
+  // this.api = new JitsiMeetExternalAPI(process.env.REACT_APP_JITSI, options);
+  // const api = new JitsiMeetExternalAPI('video-dev.meetingmaker.se', options);
+  // const api = new JitsiMeetExternalAPI('video.meetingmaker.se', options);
+  const api_host = getUrlParameter('api_host', 'meet.jit.si');
+  const api = new JitsiMeetExternalAPI(api_host, options);
+</script>
+</html>
