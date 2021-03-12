@@ -114,6 +114,11 @@ iframe {
     },
     disableDeepLinking: true,
   };
+const disableUdp = getUrlParameter('disableUdp', '0');
+  if (disableUdp === '1') {
+    configOverwrite.webrtcIceUdpDisable = true;
+    configOverwrite.webrtcIceTcpDisable = false;
+  }
   const toolbarButtons = [
     'livestreaming',
     'fullscreen',
