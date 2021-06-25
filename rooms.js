@@ -17,18 +17,18 @@ const rooms = {
     }
   },
   "2": {
-    "id": "stage-2e19a9a5-2454-4ad9-bb70-76ddd4e8803b",
+    "id": "stage-b94ac0b0-ee14-4c9e-91e7-4275eca9b944",
     "users": {
       "mod": {
-        "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJqaXRzaSIsInN1YiI6InZpZGVvLm1lZXRpbmdtYWtlci5zZSIsInJvb20iOiJzdGFnZS0yZTE5YTlhNS0yNDU0LTRhZDktYmI3MC03NmRkZDRlODgwM2IiLCJpc3MiOiJtZWV0aW5nbWFrZXItd2ViIiwiZXhwIjoxNjE1NjQ5NDY3LCJjb250ZXh0Ijp7InVzZXIiOnsiYXZhdGFyIjoiIiwibmFtZSI6IkEgUGxhbm5lciIsImVtYWlsIjoibmNsb25nLnBsYW5uZXIuYUBtYWlsaW5hdG9yLmNvbSIsImlkIjoiNjY1NiJ9LCJncm91cCI6IiJ9LCJtb2RlcmF0b3IiOnRydWV9.Pd1tLYzn2DaYAnp1Bh-g6H5pBapRGMXG3e5sqmAwG9k",
-        "email": "nclong.planner.a@mailinator.com"
+        "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJqaXRzaSIsInN1YiI6InZpZGVvLm1lZXRpbmdtYWtlci5zZSIsInJvb20iOiJzdGFnZS1iOTRhYzBiMC1lZTE0LTRjOWUtOTFlNy00Mjc1ZWNhOWI5NDQiLCJpc3MiOiJtZWV0aW5nbWFrZXItd2ViIiwiZXhwIjoxNjI0Njg5ODYzLCJjb250ZXh0Ijp7InVzZXIiOnsiYXZhdGFyIjoiIiwibmFtZSI6IjExMCBTUENFIiwiZW1haWwiOiJuY2xvbmcuc3BjZS4xMTBAbWFpbGluYXRvci5jb20iLCJpZCI6IjY2MzUifSwiZ3JvdXAiOiIifSwibW9kZXJhdG9yIjp0cnVlfQ.zEcqIkHU1RcEHBcouWt26t3mFl7VyIf8nGr2laFNMTo",
+        "email": "nclong.spce.110@mailinator.com"
       },
       "p1": {
-        "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJqaXRzaSIsInN1YiI6InZpZGVvLm1lZXRpbmdtYWtlci5zZSIsInJvb20iOiJzdGFnZS0yZTE5YTlhNS0yNDU0LTRhZDktYmI3MC03NmRkZDRlODgwM2IiLCJpc3MiOiJtZWV0aW5nbWFrZXItd2ViIiwiZXhwIjoxNjE1NjUxNTA3LCJjb250ZXh0Ijp7InVzZXIiOnsiYXZhdGFyIjoiIiwibmFtZSI6IjEgUGFydCIsImVtYWlsIjoibmNsb25nLnBhcnQuMUBtYWlsaW5hdG9yLmNvbSIsImlkIjoiNjcwNSJ9LCJncm91cCI6IiJ9LCJtb2RlcmF0b3IiOmZhbHNlfQ.Q4jhkP8HipnC1nCa1CccDRbaMa7DNKVZQ7JJTeZPhN4",
+        "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJqaXRzaSIsInN1YiI6InZpZGVvLm1lZXRpbmdtYWtlci5zZSIsInJvb20iOiJzdGFnZS1iOTRhYzBiMC1lZTE0LTRjOWUtOTFlNy00Mjc1ZWNhOWI5NDQiLCJpc3MiOiJtZWV0aW5nbWFrZXItd2ViIiwiZXhwIjoxNjI0Njg5OTU4LCJjb250ZXh0Ijp7InVzZXIiOnsiYXZhdGFyIjoiIiwibmFtZSI6IjEgUGFydCIsImVtYWlsIjoibmNsb25nLnBhcnQuMUBtYWlsaW5hdG9yLmNvbSIsImlkIjoiNjg3NyJ9LCJncm91cCI6IiJ9LCJtb2RlcmF0b3IiOmZhbHNlfQ.fhX9C02QMU9WSUPAY9xBf0q1BgN2jNnegM3W5wuaLks",
         "email": "nclong.part.1@mailinator.com"
       },
       "p2": {
-        "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJqaXRzaSIsInN1YiI6InZpZGVvLm1lZXRpbmdtYWtlci5zZSIsInJvb20iOiJzdGFnZS0yZTE5YTlhNS0yNDU0LTRhZDktYmI3MC03NmRkZDRlODgwM2IiLCJpc3MiOiJtZWV0aW5nbWFrZXItd2ViIiwiZXhwIjoxNjE1NjQ5NjQ2LCJjb250ZXh0Ijp7InVzZXIiOnsiYXZhdGFyIjoiIiwibmFtZSI6IjIgUGFydCIsImVtYWlsIjoibmNsb25nLnBhcnQuMkBtYWlsaW5hdG9yLmNvbSIsImlkIjoiNjcwNiJ9LCJncm91cCI6IiJ9LCJtb2RlcmF0b3IiOmZhbHNlfQ.78Vj95ti3F0-5oXnfDnwqgjyVk3Wbdikv00OxIgVNpY",
+        "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJqaXRzaSIsInN1YiI6InZpZGVvLm1lZXRpbmdtYWtlci5zZSIsInJvb20iOiJzdGFnZS1iOTRhYzBiMC1lZTE0LTRjOWUtOTFlNy00Mjc1ZWNhOWI5NDQiLCJpc3MiOiJtZWV0aW5nbWFrZXItd2ViIiwiZXhwIjoxNjI0Njg5OTg1LCJjb250ZXh0Ijp7InVzZXIiOnsiYXZhdGFyIjoiIiwibmFtZSI6IjIgUGFydCIsImVtYWlsIjoibmNsb25nLnBhcnQuMkBtYWlsaW5hdG9yLmNvbSIsImlkIjoiNjg3NiJ9LCJncm91cCI6IiJ9LCJtb2RlcmF0b3IiOmZhbHNlfQ.zbwerAwWBAAYq47_qrbkgVKZxVMI6iE0kgJ5X6QxU-Y",
         "email": "nclong.part.2@mailinator.com"
       }
     }
